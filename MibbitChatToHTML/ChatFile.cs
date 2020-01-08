@@ -32,7 +32,6 @@ namespace MibbitChatToHTML
             }
             return justChatLines;
         }
-
         private static string CleanUpMibbitFormatting(string line)
         {
             //<p style='color:#TEXTCOLORHERE;'><span style='font-weight: bold; color:#000000;'>NAME</span> Text </p>
