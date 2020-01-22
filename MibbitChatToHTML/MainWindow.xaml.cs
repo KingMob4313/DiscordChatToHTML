@@ -50,7 +50,19 @@ namespace MibbitChatToHTML
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            Clipboard.Clear();
+            Clipboard.SetData(DataFormats.UnicodeText, (Object)ChatTextBox.Text);
+            MessageBox.Show("Data Copied.");
+        }
 
+        private void CBCleanedCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            UnformattedCheckBox.IsChecked = false;
+        }
+
+        private void UnformattedCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CBCleanedCheckBox.IsChecked = false;
         }
     }
 }
