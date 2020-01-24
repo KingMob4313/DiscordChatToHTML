@@ -107,28 +107,8 @@ namespace MibbitChatToHTML
                     string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
                     string post = tempTrimmedLine.Substring(nameTagEnd + 1);
 
-                    if (name.Contains("Yara"))
-                    {
-                        name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                    }
-                    else if (name.Contains("Damian"))
-                    {
-                        name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                    }
-                    else if (name.Contains("Tukov"))
-                    {
-                        name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                    }
-                    else if (name.Contains("Guyli"))
-                    {
-                        name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                    }
-                    else
-                    {
-                        name = "<p style='color:#000000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                    }
-                    post = post.Replace('*', '✳');
-                    post = post.Replace('~', '〰');
+                    name = AddNameTags(name);
+                    post = CleanOddCharacters(post);
                     cleanedLine = name + post + " </p>";
                 }
             }
@@ -145,32 +125,56 @@ namespace MibbitChatToHTML
                 string firstTemp = line.Replace(':', ' ');
                 string name = firstTemp.Substring((nameTagStart + 1), ((nameTagEnd - nameTagStart) - 2));
                 string post = line.Substring(nameTagEnd + 1);
-                if (name.Contains("Yara"))
-                {
-                    name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                }
-                else if (name.Contains("Damian"))
-                {
-                    name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                }
-                else if (name.Contains("Tukov"))
-                {
-                    name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                }
-                else if (name.Contains("Guyli"))
-                {
-                    name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                }
-                else
-                {
-                    name = "<p style='color:#000000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-                }
-                post = post.Replace('*', '✳');
-                post = post.Replace('~', '〰');
+
+                name = AddNameTags(name);
+                post = CleanOddCharacters(post);
                 cleanedLine = name + post + " </p>";
             }
 
             return cleanedLine;
+        }
+
+        private static string CleanOddCharacters(string post)
+        {
+            post = post.Replace('*', '✳');
+            post = post.Replace('~', '〰');
+            if (post.Length > 0)
+            {
+                string afterDashCharacter = post.Substring((post.IndexOf('-') + 1), 1);
+                if (!string.IsNullOrWhiteSpace(afterDashCharacter))
+                {
+                    post = post.Replace(" -", " 〰");
+                    post = post.Replace("- ", "〰 ");
+                }
+            }
+
+            return post;
+        }
+
+        private static string AddNameTags(string name)
+        {
+            if (name.Contains("Yara"))
+            {
+                name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+            }
+            else if (name.Contains("Damian"))
+            {
+                name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+            }
+            else if (name.Contains("Tukov"))
+            {
+                name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+            }
+            else if (name.Contains("Guyli"))
+            {
+                name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+            }
+            else
+            {
+                name = "<p style='color:#000000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+            }
+
+            return name;
         }
     }
 }
