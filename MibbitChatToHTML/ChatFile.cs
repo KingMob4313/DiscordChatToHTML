@@ -157,11 +157,11 @@ namespace MibbitChatToHTML
             {
                 name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
             }
-            else if (name.Contains("Damian"))
+            else if (name.Contains("Damian") || name.Contains("BigBadWolf"))
             {
-                name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+                name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "DamianStark" + ": " + "</span>";
             }
-            else if (name.Contains("Tukov"))
+            else if (name.Contains("Tukov") || name.Contains("ST4313"))
             {
                 name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
             }
