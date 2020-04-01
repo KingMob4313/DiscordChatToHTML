@@ -111,6 +111,18 @@ namespace MibbitChatToHTML
                     post = CleanOddCharacters(post);
                     cleanedLine = name + post + " </p>";
                 }
+                else
+                {
+                    cleanedLine = "MISSING LINE";
+                }
+
+            }
+            else
+            {
+                if (!match.Success)
+                {
+                    cleanedLine = "NO MATCH - MISSING LINE";
+                }
             }
 
             return cleanedLine;
