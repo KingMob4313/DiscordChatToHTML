@@ -38,7 +38,7 @@ namespace MibbitChatToHTML
         private static Encoding GetChatEncoding(string filename)
         {
             Encoding currentEncoding = null;
-            using (var reader = new StreamReader(filename, Encoding.ASCII, true))
+            using (var reader = new StreamReader(filename, Encoding.UTF8, true))
             {
                 reader.Peek(); // you need this!
                 currentEncoding = reader.CurrentEncoding;
@@ -152,11 +152,14 @@ namespace MibbitChatToHTML
             post = post.Replace('~', '〰');
             if (post.Length > 0)
             {
-                string afterDashCharacter = post.Substring((post.IndexOf('-') + 1), 1);
-                if (!string.IsNullOrWhiteSpace(afterDashCharacter))
+                if ((post.IndexOf('-')+1) != post.Length) 
                 {
-                    post = post.Replace(" -", " 〰");
-                    post = post.Replace("- ", "〰 ");
+                    string afterDashCharacter = post.Substring((post.IndexOf('-') + 1), 1);
+                    if (!string.IsNullOrWhiteSpace(afterDashCharacter))
+                    {
+                        post = post.Replace(" -", " 〰");
+                        post = post.Replace("- ", "〰 ");
+                    }
                 }
             }
 
@@ -169,9 +172,16 @@ namespace MibbitChatToHTML
             {
                 name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
             }
-            else if (name.Contains("Damian") || name.Contains("BigBadWolf"))
+            else if (name.Contains("Damian") || name.Contains("BigBadWolf") || name.ToLower().Contains("blacksmithst") )
             {
-                name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "DamianStark" + ": " + "</span>";
+                if(name.Contains("BigBadWolf") || name.Contains("Damian"))
+                {
+                    name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "DamianStark" + ": " + "</span>";
+                }
+                else
+                {
+                    name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "BlackSmithST" + ": " + "</span>";
+                }
             }
             else if (name.Contains("Tukov") || name.Contains("ST4313"))
             {
