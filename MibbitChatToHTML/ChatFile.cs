@@ -150,6 +150,7 @@ namespace MibbitChatToHTML
         {
             post = post.Replace('*', '✳');
             post = post.Replace('~', '〰');
+            post = post.Replace("_", string.Empty);
             if (post.Length > 0)
             {
                 if ((post.IndexOf('-')+1) != post.Length) 
@@ -185,7 +186,7 @@ namespace MibbitChatToHTML
             }
             else if (name.Contains("Tukov") || name.Contains("ST4313"))
             {
-                name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+                name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + name + ": " + "</span>";
             }
             else if (name.Contains("Guyli"))
             {
