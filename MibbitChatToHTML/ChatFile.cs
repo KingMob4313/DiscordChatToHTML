@@ -86,7 +86,7 @@ namespace MibbitChatToHTML
 
         private static string UnformattedLineFormat(string line, string cleanedLine)
         {
-
+            //Right now "Word breaks things. Need to clean up when there is a quote and then not a space
             string trimmedLine = string.Empty;
 
             string pattern = @"^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\t";
@@ -121,6 +121,7 @@ namespace MibbitChatToHTML
             {
                 if (!match.Success)
                 {
+                   
                     cleanedLine = "NO MATCH - MISSING LINE";
                 }
             }
@@ -150,6 +151,7 @@ namespace MibbitChatToHTML
         {
             post = post.Replace('*', '✳');
             post = post.Replace('~', '〰');
+            post = post.Replace("_", string.Empty);
             post = post.Replace("_", string.Empty);
             if (post.Length > 0)
             {
