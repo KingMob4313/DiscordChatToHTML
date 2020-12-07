@@ -99,8 +99,10 @@ namespace MibbitChatToHTML
                 string ggg = line[6].ToString();
                 if (ggg != "\t")
                 {
+
                     string tempTrimmedLine = line.Substring(6, (line.Length - 6));
 
+                    tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
                     int nameTagStart = 0;
                     int nameTagEnd = tempTrimmedLine.IndexOf('\t', nameTagStart + 1);
                     string firstTemp = tempTrimmedLine.Replace(':', ' ');
@@ -129,6 +131,21 @@ namespace MibbitChatToHTML
             return cleanedLine;
         }
 
+        private static string FormattingOddityCatcher(string tempTrimmedLine)
+        {
+            //string cleanedLine = string.Empty;
+            //for (int i = 0; i < tempTrimmedLine.Count(); i++)
+            //{
+            //    if(tempTrimmedLine.Substring(i,1) == " ")
+            //    {
+            //        cleanedLine = tempTrimmedLine.Substring(i, 1);
+            //    }
+            //}
+            //return cleanedLine;
+
+            return tempTrimmedLine;
+        }
+
         private static string CBCleanedVersionLineFormat(string line, string cleanedLine)
         {
             if (line.StartsWith("*") && line.Length > 2)
@@ -151,8 +168,11 @@ namespace MibbitChatToHTML
         {
             post = post.Replace('*', '✳');
             post = post.Replace('~', '〰');
+            post = post.Replace("”", "\"");
+            post = post.Replace("“", "\"");
             post = post.Replace("_", string.Empty);
             post = post.Replace("_", string.Empty);
+            post = post.Replace(".\"", ". \"");
             if (post.Length > 0)
             {
                 if ((post.IndexOf('-')+1) != post.Length) 
