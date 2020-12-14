@@ -99,10 +99,8 @@ namespace MibbitChatToHTML
                 string ggg = line[6].ToString();
                 if (ggg != "\t")
                 {
-
                     string tempTrimmedLine = line.Substring(6, (line.Length - 6));
 
-                    tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
                     int nameTagStart = 0;
                     int nameTagEnd = tempTrimmedLine.IndexOf('\t', nameTagStart + 1);
                     string firstTemp = tempTrimmedLine.Replace(':', ' ');
@@ -111,11 +109,23 @@ namespace MibbitChatToHTML
 
                     name = AddNameTags(name);
                     post = CleanOddCharacters(post);
+                    tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
                     cleanedLine = name + post + " </p>";
                 }
                 else
                 {
-                    cleanedLine = "MISSING LINE";
+                    if (line.Contains("mibbit.com Online IRC Client"))
+                    {
+                        cleanedLine = "USER QUIT";
+                    }
+                    else if (line.ToLower().Contains("joined") && line.ToLower().Contains("thirdsofthewheel"))
+                    {
+                        cleanedLine = "USER JOINED";
+                    }
+                    else
+                    {
+                        cleanedLine = "MISSING LINE";
+                    }
                 }
 
             }
@@ -123,7 +133,7 @@ namespace MibbitChatToHTML
             {
                 if (!match.Success)
                 {
-                   
+
                     cleanedLine = "NO MATCH - MISSING LINE";
                 }
             }
@@ -134,11 +144,32 @@ namespace MibbitChatToHTML
         private static string FormattingOddityCatcher(string tempTrimmedLine)
         {
             //string cleanedLine = string.Empty;
-            //for (int i = 0; i < tempTrimmedLine.Count(); i++)
+            //int characterCount = tempTrimmedLine.Count();
+            //for (int i = 0; i < characterCount; i++)
             //{
-            //    if(tempTrimmedLine.Substring(i,1) == " ")
+            //    if (i < characterCount - 2)
             //    {
-            //        cleanedLine = tempTrimmedLine.Substring(i, 1);
+            //        string watcher = string.Empty;
+            //        string watcher2 = string.Empty; 
+            //        if (i > 1)
+            //        {
+            //            watcher = tempTrimmedLine.Substring(i - 1, 3);
+            //            watcher2 = tempTrimmedLine.Substring(i - 1, 2);
+            //        }
+            //        if (tempTrimmedLine.Substring(i, 1) == "\"" && (tempTrimmedLine.Substring(i - 1, 2) != " \"") && (tempTrimmedLine.Substring(i + 1, 1) != " "))
+            //        {
+            //            cleanedLine += tempTrimmedLine.Substring(i, 1) + "  ";
+            //            //May need to adjust this
+            //            i = i + 1;
+            //        }
+            //        else
+            //        {
+            //            cleanedLine += tempTrimmedLine.Substring(i, 1);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        cleanedLine += tempTrimmedLine.Substring(i, 1);
             //    }
             //}
             //return cleanedLine;
@@ -166,27 +197,48 @@ namespace MibbitChatToHTML
 
         private static string CleanOddCharacters(string post)
         {
-            post = post.Replace('*', '✳');
-            post = post.Replace('~', '〰');
-            post = post.Replace("”", "\"");
-            post = post.Replace("“", "\"");
-            post = post.Replace("_", string.Empty);
-            post = post.Replace("_", string.Empty);
-            post = post.Replace(".\"", ". \"");
-            if (post.Length > 0)
+            string tempString = string.Empty;
+            tempString = CharacterReplacer(post, "*", "✳");
+            tempString = CharacterReplacer(tempString, "~", "〰");
+            tempString = CharacterReplacer(tempString, "”", "\"");
+            tempString = CharacterReplacer(tempString, "“", "\"");
+            tempString = CharacterReplacer(tempString, "’", "'");
+            tempString = CharacterReplacer(tempString, "…", "... ");
+            tempString = CharacterReplacer(tempString, "...", "... ");
+            tempString = CharacterReplacer(tempString, "))", " )) ");
+            tempString = CharacterReplacer(tempString, "_", string.Empty);
+            tempString = CharacterReplacer(tempString, ".\"", ". \"");
+            
+            if (tempString.Length > 0)
             {
-                if ((post.IndexOf('-')+1) != post.Length) 
+                if ((tempString.IndexOf('-') + 1) != tempString.Length)
                 {
-                    string afterDashCharacter = post.Substring((post.IndexOf('-') + 1), 1);
+                    string afterDashCharacter = tempString.Substring((tempString.IndexOf('-') + 1), 1);
                     if (!string.IsNullOrWhiteSpace(afterDashCharacter))
                     {
-                        post = post.Replace(" -", " 〰");
-                        post = post.Replace("- ", "〰 ");
+                        tempString = CharacterReplacer(tempString, " -", " 〰");
+                        tempString = CharacterReplacer(tempString, "- ", "〰 ");
                     }
                 }
             }
 
-            return post;
+            return tempString;
+        }
+
+        private static string CharacterReplacer(string post, string badCharacter, string goodCharacter)
+        {
+            string tempString = string.Empty;
+
+            if (post.Contains(badCharacter))
+            {
+                tempString = post.Replace(badCharacter, goodCharacter).ToString();
+                return tempString;
+            }
+            else
+            {
+                tempString =(post).ToString();
+                return tempString;
+            }
         }
 
         private static string AddNameTags(string name)
@@ -195,9 +247,9 @@ namespace MibbitChatToHTML
             {
                 name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
             }
-            else if (name.Contains("Damian") || name.Contains("BigBadWolf") || name.ToLower().Contains("blacksmithst") )
+            else if (name.Contains("Damian") || name.Contains("BigBadWolf") || name.ToLower().Contains("blacksmithst"))
             {
-                if(name.Contains("BigBadWolf") || name.Contains("Damian"))
+                if (name.Contains("BigBadWolf") || name.Contains("Damian"))
                 {
                     name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "DamianStark" + ": " + "</span>";
                 }
