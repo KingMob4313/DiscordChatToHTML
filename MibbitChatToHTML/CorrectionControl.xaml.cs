@@ -17,11 +17,19 @@ namespace MibbitChatToHTML
     /// <summary>
     /// Interaction logic for CorrectionControl.xaml
     /// </summary>
-    public partial class CorrectionControl : Window
+    public partial class CorrectionControl : Window 
     {
         public CorrectionControl()
         {
             InitializeComponent();
+        }
+
+        public string GetMyResult { get; internal set; }
+
+        private void CommitEditClick(object sender, RoutedEventArgs e)
+        {
+
+            DialogResult = true;
         }
     }
 }

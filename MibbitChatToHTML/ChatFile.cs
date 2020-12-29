@@ -114,18 +114,7 @@ namespace MibbitChatToHTML
                 }
                 else
                 {
-                    if (line.Contains("mibbit.com Online IRC Client"))
-                    {
-                        cleanedLine = "USER QUIT";
-                    }
-                    else if (line.ToLower().Contains("joined") && line.ToLower().Contains("thirdsofthewheel"))
-                    {
-                        cleanedLine = "USER JOINED";
-                    }
-                    else
-                    {
-                        cleanedLine = "MISSING LINE";
-                    }
+                    cleanedLine = UserLogEntryHandler(line);
                 }
 
             }
@@ -133,9 +122,50 @@ namespace MibbitChatToHTML
             {
                 if (!match.Success)
                 {
-
                     cleanedLine = "NO MATCH - MISSING LINE";
                 }
+            }
+
+            int quoteCounter = 0;
+            foreach (char lineChar in cleanedLine)
+            {
+                
+
+                if (lineChar.ToString() == "\"")
+                {
+                    quoteCounter++;
+                }
+            }
+            if ((quoteCounter % 2) == 1)
+            {
+                CorrectionControl dialog = new CorrectionControl();
+                dialog.TextToCorrectTextBox.Text = cleanedLine;
+                //dialog.OriginalChatText.Text = tempHtmlLines.ToString();
+
+                dialog.ShowDialog();
+                if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+                {
+                    cleanedLine = dialog.TextToCorrectTextBox.Text;
+                }
+            }
+
+            return cleanedLine;
+        }
+
+        private static string UserLogEntryHandler(string line)
+        {
+            string cleanedLine;
+            if (line.Contains("mibbit.com Online IRC Client"))
+            {
+                cleanedLine = "USER QUIT";
+            }
+            else if (line.ToLower().Contains("joined") && line.ToLower().Contains("thirdsofthewheel"))
+            {
+                cleanedLine = "USER JOINED";
+            }
+            else
+            {
+                cleanedLine = "MISSING LINE";
             }
 
             return cleanedLine;

@@ -5,11 +5,13 @@ using System.Windows;
 
 namespace MibbitChatToHTML
 {
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        static public string lineFromDialog = string.Empty;
         List<Tuple<int, string>> annotatedChatLines = null;
         public MainWindow()
         {
