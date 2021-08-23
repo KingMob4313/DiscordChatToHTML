@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace MibbitChatToHTML
 {
-    
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -16,6 +16,18 @@ namespace MibbitChatToHTML
         public MainWindow()
         {
             InitializeComponent();
+            LoadInfo();
+
+        }
+
+        private void LoadInfo()
+        {
+            List<string> CurrentTextFileTypes = new List<string>();
+            CurrentTextFileTypes.Add("Mibbit IRC");
+            CurrentTextFileTypes.Add("Discord");
+
+            TextFileTypeComboBox.ItemsSource = CurrentTextFileTypes;
+            TextFileTypeComboBox.SelectedIndex = 0;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -24,7 +36,7 @@ namespace MibbitChatToHTML
             List<string> justChatLines = new List<string>();
 
             OpenFileDialog OFD = new OpenFileDialog();
-            OFD.Filter = "Text|chat*.txt|All|*.*";
+            OFD.Filter = "Text|*.txt|All|*.*";
             OFD.FileName = "chat";
             bool? result = OFD.ShowDialog();
 
@@ -32,9 +44,7 @@ namespace MibbitChatToHTML
             {
                 var currentFileName = OFD.FileName;
                 FileNameTextBox.Text = currentFileName;
-
-                justChatLines = ChatFile.ProcessChatFile(OFD.FileName, this);
-
+                justChatLines = ChatFile.ProcessChatFile(OFD.FileName, TextFileTypeComboBox.SelectedIndex, this);
             }
             string allChat = StreamOutLines(justChatLines);
             ChatTextBox.Text = allChat;

@@ -9,7 +9,7 @@ namespace MibbitChatToHTML
 {
     class ChatFile
     {
-        public static List<string> ProcessChatFile(string fileName, MainWindow mw)
+        public static List<string> ProcessChatFile(string fileName, int TextFileType, MainWindow mw)
         {
             List<Tuple<int, string>> processedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
@@ -22,14 +22,25 @@ namespace MibbitChatToHTML
             int counter = 0;
             foreach (string line in allChatText)
             {
-
                 if (line.Length > 2)
                 {
-                    string cleanLine = CleanUpMibbitFormatting(line, formatKey);
-                    Tuple<int, string> tLine = new Tuple<int, string>(counter, cleanLine);
-                    processedChatLines.Add(tLine);
-                    justChatLines.Add(cleanLine + "\r\n");
+                    if (TextFileType == 0)
+                    {
+                        string cleanLine = CleanUpMibbitFormatting(line, formatKey);
+                        Tuple<int, string> mibbitLine = new Tuple<int, string>(counter, cleanLine);
+                        processedChatLines.Add(mibbitLine);
+                        justChatLines.Add(cleanLine + "\r\n");
+                    }
+                    else
+                    {
+                        string cleanLine = CleanUpDiscordFormatting(line, formatKey);
+                        Tuple<int, string> discoLine = new Tuple<int, string>(counter, cleanLine);
+                        processedChatLines.Add(discoLine);
+                        justChatLines.Add(cleanLine + "\r\n");
+                    }
                 }
+                else
+                { }
                 counter++;
             }
             return justChatLines;
@@ -61,6 +72,15 @@ namespace MibbitChatToHTML
             {
                 return 3;
             }
+        }
+
+        private static string CleanUpDiscordFormatting(string line, int formatKey)
+        {
+            string cleanedLine = string.Empty;
+
+            cleanedLine = UnformattedDiscordLineFormat(line, cleanedLine);
+
+            return cleanedLine;
         }
 
         private static string CleanUpMibbitFormatting(string line, int formatKey)
@@ -120,6 +140,7 @@ namespace MibbitChatToHTML
             }
             else
             {
+                //ADD ERROR COUNT KICK OUT AND ADD POPUP IF TOO MANY
                 if (!match.Success)
                 {
                     cleanedLine = "NO MATCH - MISSING LINE";
@@ -129,7 +150,7 @@ namespace MibbitChatToHTML
             int quoteCounter = 0;
             foreach (char lineChar in cleanedLine)
             {
-                
+
 
                 if (lineChar.ToString() == "\"")
                 {
@@ -150,6 +171,47 @@ namespace MibbitChatToHTML
             }
 
             return cleanedLine;
+        }
+
+        private static string UnformattedDiscordLineFormat(string line, string cleanedLine)
+        {
+            string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
+            Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
+            
+            Match match = reg.Match(line);
+            int spacer = match.Length;
+
+            if (match.Success && line.Length > 2)
+            {
+                string ggg = line[spacer].ToString();
+                if (ggg != "\t")
+                {
+                    string tempTrimmedLine = line.Substring(spacer, (line.Length - spacer));
+
+                    int nameTagStart = 0;
+                    int nameTagEnd = tempTrimmedLine.IndexOf(':', nameTagStart + 1);
+                    string firstTemp = tempTrimmedLine.Replace(':', ' ');
+                    string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
+                    string post = tempTrimmedLine.Substring(nameTagEnd + 1);
+
+                    name = AddNameTags(name);
+                    post = CleanOddCharacters(post);
+                    tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
+                    cleanedLine = name + post + " </p>";
+                }
+                else
+                {
+                    cleanedLine = UserLogEntryHandler(line);
+                }
+            }
+            else
+            {
+                if (!match.Success)
+                {
+                    cleanedLine = "NO MATCH - MISSING LINE";
+                }
+            }
+                return cleanedLine;
         }
 
         private static string UserLogEntryHandler(string line)
@@ -238,7 +300,7 @@ namespace MibbitChatToHTML
             tempString = CharacterReplacer(tempString, "))", " )) ");
             tempString = CharacterReplacer(tempString, "_", string.Empty);
             tempString = CharacterReplacer(tempString, ".\"", ". \"");
-            
+
             if (tempString.Length > 0)
             {
                 if ((tempString.IndexOf('-') + 1) != tempString.Length)
@@ -266,7 +328,7 @@ namespace MibbitChatToHTML
             }
             else
             {
-                tempString =(post).ToString();
+                tempString = (post).ToString();
                 return tempString;
             }
         }
@@ -292,7 +354,7 @@ namespace MibbitChatToHTML
             {
                 name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + name + ": " + "</span>";
             }
-            else if (name.Contains("Guyli"))
+            else if (name.Contains("Guyli") || name.Contains("The Minx"))
             {
                 name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
             }

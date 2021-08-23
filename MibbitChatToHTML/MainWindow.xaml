@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-        <TextBox HorizontalAlignment="Left" Height="23" x:Name="FileNameTextBox" Text="File" VerticalAlignment="Top" Width="522" Margin="60,14,0,0"/>
-        <Button Content="Open File" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" Margin="603,14,0,0" Click="Button_Click"/>
+        <Label Content="File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="137,6,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" x:Name="FileNameTextBox" Text="File" VerticalAlignment="Top" Width="493" Margin="173,10,0,0"/>
+        <Button Content="Open File" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" Margin="671,13,0,0" Click="Button_Click"/>
 
         <TextBox HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="ChatTextBox" IsReadOnly="True" Height="322" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="772" Margin="10,62,0,0"/>
 
@@ -20,5 +20,6 @@
         <Label Content="0" HorizontalAlignment="Left" x:Name="TotalLinesText" VerticalAlignment="Top" Margin="464,36,0,0"/>
         <Label Content="Formatted Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="502,36,0,0"/>
         <Label Content="0" HorizontalAlignment="Left" x:Name="FormattedLinesText" VerticalAlignment="Top" Margin="652,36,0,0"/>
+        <ComboBox x:Name="TextFileTypeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="10,11,0,0"/>
     </Grid>
 </Window>
