@@ -9,6 +9,10 @@ namespace MibbitChatToHTML
 {
     class ChatFile
     {
+        static int errorLineCount = 0;
+        static int lineCount = 0;
+        static bool isFileGood = true;
+
         public static List<string> ProcessChatFile(string fileName, int TextFileType, MainWindow mw)
         {
             List<Tuple<int, string>> processedChatLines = new List<Tuple<int, string>>();
@@ -18,30 +22,40 @@ namespace MibbitChatToHTML
             //Fix word/line wrapped lines by joining them to previous
             List<string> allChatText = File.ReadAllLines(fileName, fileEncoding).ToList<string>();
             int formatKey = GetFormatKey(mw);
-
-            int counter = 0;
+            lineCount = 0;
+            errorLineCount = 0;
+            isFileGood = true;
             foreach (string line in allChatText)
             {
-                if (line.Length > 2)
+                if (isFileGood)
                 {
-                    if (TextFileType == 0)
+                    if (line.Length > 2)
                     {
-                        string cleanLine = CleanUpMibbitFormatting(line, formatKey);
-                        Tuple<int, string> mibbitLine = new Tuple<int, string>(counter, cleanLine);
-                        processedChatLines.Add(mibbitLine);
-                        justChatLines.Add(cleanLine + "\r\n");
+                        if (TextFileType == 0)
+                        {
+                            string cleanLine = CleanUpMibbitFormatting(line, formatKey);
+                            Tuple<int, string> mibbitLine = new Tuple<int, string>(lineCount, cleanLine);
+                            processedChatLines.Add(mibbitLine);
+                            justChatLines.Add(cleanLine + "\r\n");
+                        }
+                        else
+                        {
+                            string cleanLine = CleanUpDiscordFormatting(line, formatKey);
+                            Tuple<int, string> discoLine = new Tuple<int, string>(lineCount, cleanLine);
+                            processedChatLines.Add(discoLine);
+                            justChatLines.Add(cleanLine + "\r\n");
+                        }
                     }
                     else
-                    {
-                        string cleanLine = CleanUpDiscordFormatting(line, formatKey);
-                        Tuple<int, string> discoLine = new Tuple<int, string>(counter, cleanLine);
-                        processedChatLines.Add(discoLine);
-                        justChatLines.Add(cleanLine + "\r\n");
-                    }
+                    { }
+                    lineCount++;
                 }
                 else
-                { }
-                counter++;
+                {
+                    justChatLines.Clear();
+                    justChatLines.Add("WRONG FILE FORMAT TRY A DIFFERENT FORMAT!");
+                    return justChatLines;
+                }
             }
             return justChatLines;
         }
@@ -144,40 +158,51 @@ namespace MibbitChatToHTML
                 if (!match.Success)
                 {
                     cleanedLine = "NO MATCH - MISSING LINE";
+                    errorLineCount++;
+                    if (errorLineCount > 3 && errorLineCount / lineCount > 0.3)
+                    {
+                        isFileGood = false;
+
+                    }
                 }
             }
 
-            int quoteCounter = 0;
-            foreach (char lineChar in cleanedLine)
+            if (isFileGood)
             {
-
-
-                if (lineChar.ToString() == "\"")
+                int quoteCounter = 0;
+                foreach (char lineChar in cleanedLine)
                 {
-                    quoteCounter++;
+                    if (lineChar.ToString() == "\"")
+                    {
+                        quoteCounter++;
+                    }
                 }
+                if ((quoteCounter % 2) == 1)
+                {
+                    CorrectionControl dialog = new CorrectionControl();
+                    dialog.TextToCorrectTextBox.Text = cleanedLine;
+                    //dialog.OriginalChatText.Text = tempHtmlLines.ToString();
+
+                    dialog.ShowDialog();
+                    if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+                    {
+                        cleanedLine = dialog.TextToCorrectTextBox.Text;
+                    }
+                }
+
+                return cleanedLine;
             }
-            if ((quoteCounter % 2) == 1)
+            else
             {
-                CorrectionControl dialog = new CorrectionControl();
-                dialog.TextToCorrectTextBox.Text = cleanedLine;
-                //dialog.OriginalChatText.Text = tempHtmlLines.ToString();
-
-                dialog.ShowDialog();
-                if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
-                {
-                    cleanedLine = dialog.TextToCorrectTextBox.Text;
-                }
+                return "WRONG FILE FORMAT TRY A DIFFERENT FORMAT!";
             }
-
-            return cleanedLine;
         }
 
         private static string UnformattedDiscordLineFormat(string line, string cleanedLine)
         {
             string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
             Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
-            
+
             Match match = reg.Match(line);
             int spacer = match.Length;
 
@@ -211,7 +236,7 @@ namespace MibbitChatToHTML
                     cleanedLine = "NO MATCH - MISSING LINE";
                 }
             }
-                return cleanedLine;
+            return cleanedLine;
         }
 
         private static string UserLogEntryHandler(string line)
@@ -356,7 +381,7 @@ namespace MibbitChatToHTML
             }
             else if (name.Contains("Guyli") || name.Contains("The Minx"))
             {
-                name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+                name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + "Guylian" + ": " + "</span>";
             }
             else
             {
