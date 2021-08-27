@@ -15,7 +15,7 @@
 
         <Button Content="Copy Text" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="707,389,0,0" Click="Button_Click_1"/>
         <CheckBox Content="CB Cleaned" x:Name="CBCleanedCheckBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,42,0,0" Checked="CBCleanedCheckBox_Checked" />
-        <CheckBox Content="Unformatted" x:Name="UnformattedCheckBox" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,42,0,0" Checked="UnformattedCheckBox_Checked" />
+        <CheckBox Content="Unformatted / MIRC style" x:Name="UnformattedCheckBox" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,42,0,0" Checked="UnformattedCheckBox_Checked" />
         <Label Content="Total Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="342,36,0,0"/>
         <Label Content="0" HorizontalAlignment="Left" x:Name="TotalLinesText" VerticalAlignment="Top" Margin="464,36,0,0"/>
         <Label Content="Formatted Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="502,36,0,0"/>
