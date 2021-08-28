@@ -25,9 +25,8 @@ namespace MibbitChatToHTML
             List<string> CurrentTextFileTypes = new List<string>();
             CurrentTextFileTypes.Add("Mibbit IRC");
             CurrentTextFileTypes.Add("Discord");
-
             TextFileTypeComboBox.ItemsSource = CurrentTextFileTypes;
-            TextFileTypeComboBox.SelectedIndex = 0;
+            TextFileTypeComboBox.SelectedIndex = 1; //Default to Discord
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

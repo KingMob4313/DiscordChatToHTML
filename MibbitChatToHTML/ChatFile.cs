@@ -79,7 +79,41 @@ namespace MibbitChatToHTML
         private static List<string> CombineDiscordFormattedLines(List<string> allChatText)
         {
             List<string> currentLineList = new List<string>();
+            string composedLine = string.Empty;
+            for (int i = 0; i < allChatText.Count; i++)
+            {
+                string currentLine = allChatText[i];
+                if (CheckForHeaderLine(currentLine))
+                {
+                    //Look ahead - Start at one
+                    int counter = 1;
+                    composedLine = JoinAndCleanFormattedLines(allChatText, i, currentLine, 1);
+                    
+                    //Check if the next-next line has date and EM dash
+                    while (!CheckForHeaderLine(allChatText[i + counter]))
+                    {
+                        string tempLine = composedLine;
+                        composedLine = JoinAndCleanFormattedLines(allChatText, i, tempLine, counter);
+                        counter++;
+                    }
+                    i = i + counter;
+                    currentLineList.Add(composedLine);
+                }
+            }
             return currentLineList;
+        }
+
+        private static string JoinAndCleanFormattedLines(List<string> allChatText, int i, string currentLine, int counter)
+        {
+            string composedLine;
+            string nextLine = allChatText[i + counter];
+            composedLine = currentLine + " " + nextLine.Replace("\r\n", " ");
+            return composedLine;
+        }
+
+        private static bool CheckForHeaderLine(string line)
+        {
+            return line.Contains("—") && line.Contains(@"/2021");
         }
 
         private static Encoding GetChatEncoding(string filename)
