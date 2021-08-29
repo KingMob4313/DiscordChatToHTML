@@ -121,7 +121,7 @@ namespace MibbitChatToHTML
 
         private static bool CheckForHeaderLine(string line)
         {
-            return line.Contains("—") && line.Contains(@"/2021");
+            return line.Contains("—") && (line.Contains(@"/2021") || line.Contains("Yesterday") || line.Contains("Today"));
         }
 
         private static Encoding GetChatEncoding(string filename)
