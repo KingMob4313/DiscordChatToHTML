@@ -23,6 +23,11 @@ namespace MibbitChatToHTML
             List<string> allChatText = File.ReadAllLines(fileName, fileEncoding).ToList<string>();
 
             int formatKey = GetFormatKey(mw);
+            lineCount = 0;
+            errorLineCount = 0;
+            isFileGood = true;
+
+            //Lol this is hilariously ignorant - needs a refactor
             if (TextFileType == 1 && formatKey == 3)
             {
                 //Combine split lines by discord
@@ -30,10 +35,9 @@ namespace MibbitChatToHTML
                 discordLines = CombineDiscordFormattedLines(allChatText);
                 allChatText.Clear();
                 allChatText.AddRange(discordLines);
+                return allChatText;
             }
-            lineCount = 0;
-            errorLineCount = 0;
-            isFileGood = true;
+
             foreach (string line in allChatText)
             {
                 if (isFileGood)
@@ -55,11 +59,7 @@ namespace MibbitChatToHTML
                                 Tuple<int, string> discoLine = new Tuple<int, string>(lineCount, cleanLine);
                                 processedChatLines.Add(discoLine);
                                 justChatLines.Add(cleanLine + "\r\n");
-                            }
-                            else
-                            {
-                                throw new Exception();
-                            }
+                            } 
                         }
                     }
                     else
@@ -82,31 +82,41 @@ namespace MibbitChatToHTML
             string composedLine = string.Empty;
             for (int i = 0; i < allChatText.Count; i++)
             {
+                //Get current line
                 string currentLine = allChatText[i];
-                if (CheckForHeaderLine(currentLine))
+                //See if current line has a header if so...
+                if (CheckForHeaderLine(currentLine) && (i < allChatText.Count))
                 {
                     //Look ahead - Start at one
-                    int counter = 1;
-                    composedLine = JoinAndCleanFormattedLines(allChatText, i, currentLine, 1);
-                    
-                    //Check if the next-next line has date and EM dash
-                    while (!CheckForHeaderLine(allChatText[i + counter]))
+                    i++;
+                    currentLine = AddNameTags(currentLine);
+                    composedLine = JoinAndCleanFormattedLines(allChatText, i, currentLine);
+                    i++;
+                    if (i < allChatText.Count)
                     {
-                        string tempLine = composedLine;
-                        composedLine = JoinAndCleanFormattedLines(allChatText, i, tempLine, counter);
-                        counter++;
+
+
+                        //Check if the next-next line has date and EM dash - if not join line.
+                        while (!CheckForHeaderLine(allChatText[i]))
+                        {
+                            string tempLine = composedLine;
+                            composedLine = JoinAndCleanFormattedLines(allChatText, i, tempLine);
+                            i++;
+
+                        }
                     }
-                    i = i + counter;
-                    currentLineList.Add(composedLine);
+                    currentLineList.Add(CleanOddCharacters(composedLine) + "</p>\r\n");
+                    //Adjust counter back
+                    i--;
                 }
             }
             return currentLineList;
         }
 
-        private static string JoinAndCleanFormattedLines(List<string> allChatText, int i, string currentLine, int counter)
+        private static string JoinAndCleanFormattedLines(List<string> allChatText, int i, string currentLine)
         {
             string composedLine;
-            string nextLine = allChatText[i + counter];
+            string nextLine = allChatText[i];
             composedLine = currentLine + " " + nextLine.Replace("\r\n", " ");
             return composedLine;
         }
@@ -465,7 +475,8 @@ namespace MibbitChatToHTML
         {
             if (name.Contains("Yara"))
             {
-                name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
+                name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + "Yara Sherred" + ": " + "</span>";
+
             }
             else if (name.Contains("Damian") || name.Contains("BigBadWolf") || name.ToLower().Contains("blacksmithst"))
             {
@@ -480,7 +491,15 @@ namespace MibbitChatToHTML
             }
             else if (name.Contains("Tukov") || name.Contains("ST4313"))
             {
-                name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + name + ": " + "</span>";
+                if (name.Contains("Tukov"))
+                {
+                    name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + "Kai Tukov" + ": " + "</span>";
+                }
+                else
+                {
+                    name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + "ST4313" + ": " + "</span>";
+                }
+
             }
             else if (name.Contains("Guyli") || name.Contains("The Minx"))
             {
