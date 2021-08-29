@@ -62,8 +62,6 @@ namespace MibbitChatToHTML
                             } 
                         }
                     }
-                    else
-                    { }
                     lineCount++;
                 }
                 else
