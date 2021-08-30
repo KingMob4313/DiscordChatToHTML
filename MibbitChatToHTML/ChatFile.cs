@@ -21,60 +21,69 @@ namespace MibbitChatToHTML
 
             //Fix word/line wrapped lines by joining them to previous
             List<string> allChatText = File.ReadAllLines(fileName, fileEncoding).ToList<string>();
+            mw.TotalLinesText.Content = allChatText.Count.ToString();
 
             int formatKey = GetFormatKey(mw);
             lineCount = 0;
             errorLineCount = 0;
             isFileGood = true;
-
-            //Lol this is hilariously ignorant - needs a refactor
-            if (TextFileType == 1 && formatKey == 3)
+            if (isFileGood)
             {
-                //Combine split lines by discord
-                List<string> discordLines = new List<string>();
-                discordLines = CombineDiscordFormattedLines(allChatText);
-                allChatText.Clear();
-                allChatText.AddRange(discordLines);
-                return allChatText;
-            }
-
-            foreach (string line in allChatText)
-            {
-                if (isFileGood)
+                if (TextFileType == 1 && formatKey == 3)
                 {
-                    if (line.Length > 2)
-                    {
-                        if (TextFileType == 0)
-                        {
-                            string cleanLine = CleanUpMibbitFormatting(line, formatKey);
-                            Tuple<int, string> mibbitLine = new Tuple<int, string>(lineCount, cleanLine);
-                            processedChatLines.Add(mibbitLine);
-                            justChatLines.Add(cleanLine + "\r\n");
-                        }
-                        else
-                        {
-                            if (formatKey == 2)
-                            {
-                                string cleanLine = CleanUpDiscordFormatting(line, formatKey);
-                                Tuple<int, string> discoLine = new Tuple<int, string>(lineCount, cleanLine);
-                                processedChatLines.Add(discoLine);
-                                justChatLines.Add(cleanLine + "\r\n");
-                            } 
-                        }
-                    }
-                    lineCount++;
+                    return FullFormattedDiscordLineFormat(allChatText, mw);
                 }
-                else
+                else if (TextFileType == 0)
                 {
-                    justChatLines.Clear();
-                    justChatLines.Add("WRONG FILE FORMAT TRY A DIFFERENT FORMAT!");
-                    return justChatLines;
+                    return ProcessMibbitChatLines(allChatText, formatKey, mw);
+                }
+                else if (TextFileType == 1 && formatKey == 2)
+                {
+                    return ProcessDiscordChatLines(allChatText, mw);
                 }
             }
             return justChatLines;
         }
 
-        private static List<string> CombineDiscordFormattedLines(List<string> allChatText)
+
+        private static List<string> ProcessMibbitChatLines(List<string> allChatText, int formatKey, MainWindow currentWindow)
+        {
+            List<string> currentChatLines = new List<string>();
+            foreach (string line in allChatText)
+            {
+                if (line.Length > 2 && isFileGood)
+                {
+                    string cleanLine = CleanUpMibbitFormatting(line, formatKey);
+                    Tuple<int, string> mibbitLine = new Tuple<int, string>(lineCount, cleanLine);
+                    //currentChatLines.Add(mibbitLine);
+                    currentChatLines.Add(cleanLine + "\r\n");
+                }
+                lineCount++;
+            }
+            currentWindow.FormattedLinesText.Content = currentChatLines.Count.ToString();
+            return currentChatLines;
+        }
+
+        private static List<string> ProcessDiscordChatLines(List<string> allChatText, MainWindow currentWindow)
+        {
+            List<string> currentChatLines = new List<string>();
+            foreach (string line in allChatText)
+            {
+                if(line.Length > 2 && isFileGood)
+                {
+                    string cleanLine = CleanUpDiscordFormatting(line, 2);
+                    Tuple<int, string> discoLine = new Tuple<int, string>(lineCount, cleanLine);
+                    //processedChatLines.Add(discoLine);
+                    currentChatLines.Add(cleanLine + "\r\n");
+                }
+                lineCount++;
+            }
+            currentWindow.FormattedLinesText.Content = currentChatLines.Count.ToString();
+            return currentChatLines;
+        }
+
+
+        private static List<string> FullFormattedDiscordLineFormat(List<string> allChatText, MainWindow currentWindow)
         {
             List<string> currentLineList = new List<string>();
             string composedLine = string.Empty;
@@ -108,6 +117,7 @@ namespace MibbitChatToHTML
                     i--;
                 }
             }
+            currentWindow.FormattedLinesText.Content = currentLineList.Count.ToString();
             return currentLineList;
         }
 
@@ -158,7 +168,7 @@ namespace MibbitChatToHTML
 
             if (formatKey == 1)
             {
-                cleanedLine = FullFormattedDiscordLineFormat(line, cleanedLine);
+                throw new Exception();
             }
             else if (formatKey == 2)
             {
@@ -167,46 +177,6 @@ namespace MibbitChatToHTML
             return cleanedLine;
         }
 
-        private static string FullFormattedDiscordLineFormat(string line, string cleanedLine)
-        {
-            //string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
-            //Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
-
-            //Match match = reg.Match(line);
-            //int spacer = match.Length;
-
-            //if (match.Success && line.Length > 2)
-            //{
-            //    string ggg = line[spacer].ToString();
-            //    if (ggg != "\t")
-            //    {
-            //        string tempTrimmedLine = line.Substring(spacer, (line.Length - spacer));
-
-            //        int nameTagStart = 0;
-            //        int nameTagEnd = tempTrimmedLine.IndexOf(':', nameTagStart + 1);
-            //        string firstTemp = tempTrimmedLine.Replace(':', ' ');
-            //        string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
-            //        string post = tempTrimmedLine.Substring(nameTagEnd + 1);
-
-            //        name = AddNameTags(name);
-            //        post = CleanOddCharacters(post);
-            //        tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
-            //        cleanedLine = name + post + " </p>";
-            //    }
-            //    else
-            //    {
-            //        cleanedLine = UserLogEntryHandler(line);
-            //    }
-            //}
-            //else
-            //{
-            //    if (!match.Success)
-            //    {
-            //        cleanedLine = "NO MATCH - MISSING LINE";
-            //    }
-            //}
-            return cleanedLine;
-        }
 
         private static string CleanUpMibbitFormatting(string line, int formatKey)
         {

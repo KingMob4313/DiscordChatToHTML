@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MibbitChatToHTML"
         mc:Ignorable="d"
-        Title="CorrectionControl" Height="360" Width="480">
+        Title="Please Check Quotes" Height="360" Width="480">
     <Grid>
 
         <TextBox HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="TextToCorrectTextBox" IsReadOnly="False" Height="276" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="452" Margin="10,15,0,0"/>
