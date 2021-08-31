@@ -461,11 +461,11 @@ namespace MibbitChatToHTML
             {
                 if (name.Contains("Tukov"))
                 {
-                    name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + "Kai Tukov" + ": " + "</span>";
+                    name = "<p style='color:#110491;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter-spacing: 0.07em;'>" + "Kai Tukov" + ": " + "</span>";
                 }
                 else
                 {
-                    name = "<p style='color:#110481;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter - spacing: 0.07em;'>" + "ST4313" + ": " + "</span>";
+                    name = "<p style='color:#110491;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter-spacing: 0.07em;'>" + "ST4313" + ": " + "</span>";
                 }
 
             }

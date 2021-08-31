@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows;
 
 namespace MibbitChatToHTML
@@ -62,7 +63,7 @@ namespace MibbitChatToHTML
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Clipboard.Clear();
-            Clipboard.SetData(DataFormats.UnicodeText, (Object)ChatTextBox.Text);
+            Clipboard.SetData(DataFormats.UnicodeText, ChatTextBox.Text);
             MessageBox.Show("Data Copied.");
         }
 
@@ -74,6 +75,31 @@ namespace MibbitChatToHTML
         private void UnformattedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             CBCleanedCheckBox.IsChecked = false;
+        }
+
+        private void NameControlButton_Click(object sender, RoutedEventArgs e)
+        {
+            NameControl dialog = new NameControl();
+            DataSet dataSet = new DataSet();
+            DataTable XMLDataTable = new DataTable();
+            dataSet.ReadXml("NamesAliasFile.xml");
+            XMLDataTable = dataSet.Tables[0];
+
+            dialog.NameDataGrid.ItemsSource = XMLDataTable.AsDataView();
+            dialog.NameDataGrid.AutoGenerateColumns = true;
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    XMLDataTable.WriteXml("NamesAliasFile.xml");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+            //a.Any(a => b.Contains(a))
         }
     }
 }

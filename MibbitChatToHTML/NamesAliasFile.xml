@@ -1,0 +1,73 @@
+<?xml version="1.0" standalone="yes"?>
+<nameData>
+  <NameAliasEntry>
+    <Alias>Tukov</Alias>
+    <name>Kai Tukov</name>
+    <color>#110491</color>
+    <fontFace>Lucida Console, Monaco, monospace</fontFace>
+    <letterSpacing>0.07em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>ST4313</Alias>
+    <name>ST 𝟰𝟯𝟭𝟯</name>
+    <color>#110491</color>
+    <fontFace>Lucida Console, Monaco, monospace</fontFace>
+    <letterSpacing>0.08em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Yara</Alias>
+    <name>Yara Sherred</name>
+    <color>#666666</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.07em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Damian</Alias>
+    <name>Damian Stark</name>
+    <color>#800000</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.07em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Minx</Alias>
+    <name>Guylian</name>
+    <color>#5200CC</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.07em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Nora</Alias>
+    <name>Guylian</name>
+    <color>#5200CC</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.07em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>BlackSmith</Alias>
+    <name>BlackSmith</name>
+    <color>#800000</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.08em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>BigBadWolf</Alias>
+    <name>Damian Stark</name>
+    <color>#800000</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.07em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Blacksmith</Alias>
+    <name>BlackSmith</name>
+    <color>#800000</color>
+    <fontFace>Arial, sans-serif</fontFace>
+    <letterSpacing>0.08em</letterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Guyli</Alias>
+    <name>Guylian</name>
+    <color>#5200CC</color>
+    <fontFace>Arial, Sans-serif</fontFace>
+    <letterSpacing>0.007em</letterSpacing>
+  </NameAliasEntry>
+</nameData>

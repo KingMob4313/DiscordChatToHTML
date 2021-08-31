@@ -15,20 +15,25 @@ using System.Windows.Shapes;
 namespace MibbitChatToHTML
 {
     /// <summary>
-    /// Interaction logic for CorrectionControl.xaml
+    /// Interaction logic for NameControl.xaml
     /// </summary>
-    public partial class CorrectionControl : Window 
+    public partial class NameControl : Window
     {
-        public CorrectionControl()
+        public NameControl()
         {
             InitializeComponent();
         }
 
-        public string GetMyResult { get; internal set; }
-
-        private void CommitEditClick(object sender, RoutedEventArgs e)
+        private void NameDialogSave_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+            this.Close();
+        }
+
+        private void NameDialogExit_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            this.Close();
         }
     }
 }

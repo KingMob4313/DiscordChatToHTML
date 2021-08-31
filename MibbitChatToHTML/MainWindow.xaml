@@ -22,7 +22,7 @@
         <Label Content="0" HorizontalAlignment="Left" x:Name="FormattedLinesText" VerticalAlignment="Top" Margin="585,36,0,0"/>
         <ComboBox x:Name="TextFileTypeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="60,10,0,0" Height="25"/>
         <Label Content="Format:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,9,0,0" Height="25"/>
-        <Button Content="Names" x:Name="NameControlButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,394,0,0">
+        <Button Content="Names" x:Name="NameControlButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,394,0,0" Click="NameControlButton_Click">
             <Button.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
             </Button.Foreground>
