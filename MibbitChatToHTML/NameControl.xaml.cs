@@ -35,5 +35,10 @@ namespace MibbitChatToHTML
             DialogResult = false;
             this.Close();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -53,7 +54,7 @@ namespace MibbitChatToHTML
             {
                 if (line.Length > 2 && isFileGood)
                 {
-                    string cleanLine = CleanUpMibbitFormatting(line, formatKey);
+                    string cleanLine = CleanUpMibbitFormatting(line, formatKey, currentWindow.mainNameDataTable);
                     Tuple<int, string> mibbitLine = new Tuple<int, string>(lineCount, cleanLine);
                     //currentChatLines.Add(mibbitLine);
                     currentChatLines.Add(cleanLine + "\r\n");
@@ -69,9 +70,9 @@ namespace MibbitChatToHTML
             List<string> currentChatLines = new List<string>();
             foreach (string line in allChatText)
             {
-                if(line.Length > 2 && isFileGood)
+                if (line.Length > 2 && isFileGood)
                 {
-                    string cleanLine = CleanUpDiscordFormatting(line, 2);
+                    string cleanLine = CleanUpDiscordFormatting(line, 2, currentWindow.mainNameDataTable);
                     Tuple<int, string> discoLine = new Tuple<int, string>(lineCount, cleanLine);
                     //processedChatLines.Add(discoLine);
                     currentChatLines.Add(cleanLine + "\r\n");
@@ -96,7 +97,7 @@ namespace MibbitChatToHTML
                 {
                     //Look ahead - Start at one
                     i++;
-                    currentLine = AddNameTags(currentLine);
+                    currentLine = AddNameTags(currentLine, currentWindow.mainNameDataTable);
                     composedLine = JoinAndCleanFormattedLines(allChatText, i, currentLine);
                     i++;
                     if (i < allChatText.Count)
@@ -131,7 +132,7 @@ namespace MibbitChatToHTML
 
         private static bool CheckForHeaderLine(string line)
         {
-            return line.Contains("—") && (line.Contains(@"/2021") || line.Contains("Yesterday") || line.Contains("Today"));
+            return line.Contains("—") && (line.Contains(@"/" + DateTime.Now.Year.ToString()) || line.Contains("Yesterday") || line.Contains("Today"));
         }
 
         private static Encoding GetChatEncoding(string filename)
@@ -162,7 +163,7 @@ namespace MibbitChatToHTML
             }
         }
 
-        private static string CleanUpDiscordFormatting(string line, int formatKey)
+        private static string CleanUpDiscordFormatting(string line, int formatKey, DataTable nameDataTable)
         {
             string cleanedLine = string.Empty;
 
@@ -172,23 +173,23 @@ namespace MibbitChatToHTML
             }
             else if (formatKey == 2)
             {
-                cleanedLine = UnformattedDiscordLineFormat(line, cleanedLine);
+                cleanedLine = UnformattedDiscordLineFormat(line, cleanedLine, nameDataTable);
             }
             return cleanedLine;
         }
 
 
-        private static string CleanUpMibbitFormatting(string line, int formatKey)
+        private static string CleanUpMibbitFormatting(string line, int formatKey, DataTable nameDataTable)
         {
             //<p style='color:#TEXTCOLORHERE;'><span style='font-weight: bold; color:#000000;'>NAME</span> Text </p>
             string cleanedLine = string.Empty;
             if (formatKey == 1)
             {
-                cleanedLine = CBCleanedVersionLineFormat(line, cleanedLine);
+                cleanedLine = CBCleanedVersionLineFormat(line, cleanedLine, nameDataTable);
             }
             else if (formatKey == 2)
             {
-                cleanedLine = UnformattedLineFormat(line, cleanedLine);
+                cleanedLine = UnformattedLineFormat(line, cleanedLine, nameDataTable);
             }
             else
             {
@@ -199,7 +200,7 @@ namespace MibbitChatToHTML
 
         }
 
-        private static string UnformattedLineFormat(string line, string cleanedLine)
+        private static string UnformattedLineFormat(string line, string cleanedLine, DataTable nameDataTable)
         {
             //Right now "Word breaks things. Need to clean up when there is a quote and then not a space
             string trimmedLine = string.Empty;
@@ -222,7 +223,7 @@ namespace MibbitChatToHTML
                     string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
                     string post = tempTrimmedLine.Substring(nameTagEnd + 1);
 
-                    name = AddNameTags(name);
+                    name = AddNameTags(name, nameDataTable);
                     post = CleanOddCharacters(post);
                     tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
                     cleanedLine = name + post + " </p>";
@@ -279,7 +280,7 @@ namespace MibbitChatToHTML
             }
         }
 
-        private static string UnformattedDiscordLineFormat(string line, string cleanedLine)
+        private static string UnformattedDiscordLineFormat(string line, string cleanedLine, DataTable nameDataTable)
         {
             string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
             Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
@@ -300,7 +301,7 @@ namespace MibbitChatToHTML
                     string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
                     string post = tempTrimmedLine.Substring(nameTagEnd + 1);
 
-                    name = AddNameTags(name);
+                    name = AddNameTags(name, nameDataTable);
                     post = CleanOddCharacters(post);
                     tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
                     cleanedLine = name + post + " </p>";
@@ -375,7 +376,7 @@ namespace MibbitChatToHTML
             return tempTrimmedLine;
         }
 
-        private static string CBCleanedVersionLineFormat(string line, string cleanedLine)
+        private static string CBCleanedVersionLineFormat(string line, string cleanedLine, DataTable nameDataTable)
         {
             if (line.StartsWith("*") && line.Length > 2)
             {
@@ -385,7 +386,7 @@ namespace MibbitChatToHTML
                 string name = firstTemp.Substring((nameTagStart + 1), ((nameTagEnd - nameTagStart) - 2));
                 string post = line.Substring(nameTagEnd + 1);
 
-                name = AddNameTags(name);
+                name = AddNameTags(name, nameDataTable);
                 post = CleanOddCharacters(post);
                 cleanedLine = name + post + " </p>";
             }
@@ -396,6 +397,8 @@ namespace MibbitChatToHTML
         private static string CleanOddCharacters(string post)
         {
             string tempString = string.Empty;
+
+            //Ugly AF - but functional
             tempString = CharacterReplacer(post, "*", "✳");
             tempString = CharacterReplacer(tempString, "~", "〰");
             tempString = CharacterReplacer(tempString, "”", "\"");
@@ -439,46 +442,13 @@ namespace MibbitChatToHTML
             }
         }
 
-        private static string AddNameTags(string name)
+        private static string AddNameTags(string currentLine, DataTable nameDataTable)
         {
-            if (name.Contains("Yara"))
-            {
-                name = "<p style='color:#666666;'><span style='font-weight: bold; color:#000000;'>" + "Yara Sherred" + ": " + "</span>";
+            List<string> nameList = nameDataTable.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            int xyz = nameList.FindIndex(s => currentLine.Contains(s));
+            currentLine = "<p style='color:" + nameDataTable.Rows[xyz][2].ToString() + ";'><span style='font-weight: bold; color:#000000; font-family: " + nameDataTable.Rows[xyz][3].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][4].ToString() + ";'>" + nameDataTable.Rows[xyz][1].ToString() + ": " + "</span>";
 
-            }
-            else if (name.Contains("Damian") || name.Contains("BigBadWolf") || name.ToLower().Contains("blacksmithst"))
-            {
-                if (name.Contains("BigBadWolf") || name.Contains("Damian"))
-                {
-                    name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "DamianStark" + ": " + "</span>";
-                }
-                else
-                {
-                    name = "<p style='color:#800000;'><span style='font-weight: bold; color:#000000;'>" + "BlackSmithST" + ": " + "</span>";
-                }
-            }
-            else if (name.Contains("Tukov") || name.Contains("ST4313"))
-            {
-                if (name.Contains("Tukov"))
-                {
-                    name = "<p style='color:#110491;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter-spacing: 0.07em;'>" + "Kai Tukov" + ": " + "</span>";
-                }
-                else
-                {
-                    name = "<p style='color:#110491;'><span style='font-weight: bold; color:#000000; font-family: Lucida Console, Monaco, monospace; letter-spacing: 0.07em;'>" + "ST4313" + ": " + "</span>";
-                }
-
-            }
-            else if (name.Contains("Guyli") || name.Contains("The Minx"))
-            {
-                name = "<p style='color:#5200CC;'><span style='font-weight: bold; color:#000000;'>" + "Guylian" + ": " + "</span>";
-            }
-            else
-            {
-                name = "<p style='color:#000000;'><span style='font-weight: bold; color:#000000;'>" + name + ": " + "</span>";
-            }
-
-            return name;
+            return currentLine;
         }
     }
 }

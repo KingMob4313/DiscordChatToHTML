@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace MibbitChatToHTML
 {
-
+   
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -14,11 +14,15 @@ namespace MibbitChatToHTML
     {
         static public string lineFromDialog = string.Empty;
         List<Tuple<int, string>> annotatedChatLines = null;
+        public DataSet mainNameDataSet = new DataSet();
+        public DataTable mainNameDataTable = new DataTable();
+
         public MainWindow()
         {
             InitializeComponent();
             LoadInfo();
-
+            mainNameDataSet.ReadXml("NamesAliasFile.xml");
+            mainNameDataTable = mainNameDataSet.Tables[0];
         }
 
         private void LoadInfo()
@@ -80,10 +84,7 @@ namespace MibbitChatToHTML
         private void NameControlButton_Click(object sender, RoutedEventArgs e)
         {
             NameControl dialog = new NameControl();
-            DataSet dataSet = new DataSet();
-            DataTable XMLDataTable = new DataTable();
-            dataSet.ReadXml("NamesAliasFile.xml");
-            XMLDataTable = dataSet.Tables[0];
+            DataTable XMLDataTable = GetNameXMLToDataTable();
 
             dialog.NameDataGrid.ItemsSource = XMLDataTable.AsDataView();
             dialog.NameDataGrid.AutoGenerateColumns = true;
@@ -99,7 +100,17 @@ namespace MibbitChatToHTML
                     Console.WriteLine(ex);
                 }
             }
-            //a.Any(a => b.Contains(a))
+            mainNameDataTable.Clear();
+            mainNameDataTable = XMLDataTable.Copy();
+        }
+
+        private static DataTable GetNameXMLToDataTable()
+        {
+            DataSet dataSet = new DataSet();
+            DataTable XMLDataTable = new DataTable();
+            dataSet.ReadXml("NamesAliasFile.xml");
+            XMLDataTable = dataSet.Tables[0];
+            return XMLDataTable;
         }
     }
 }

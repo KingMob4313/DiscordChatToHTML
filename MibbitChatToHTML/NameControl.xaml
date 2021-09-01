@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MibbitChatToHTML"
         mc:Ignorable="d"
-        Title="NameControl" Height="350" Width="500">
+        Title="NameControl" Height="350" Width="500" Closed="Window_Closed">
     <Grid>
-        <DataGrid x:Name="NameDataGrid"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch" ColumnWidth="*" AutoGenerateColumns="True" VerticalAlignment="Top" Margin="10,10,12,0" Height="267"/>
-        <Button x:Name="NameDialogSave"  Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="405,289,0,0" Click="NameDialogSave_Click" Foreground="White" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="NameDataGrid"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch" ColumnWidth="*" AutoGenerateColumns="True" VerticalAlignment="Top" Margin="10,10,12,0" Height="267" Grid.ColumnSpan="2"/>
+        <Button x:Name="NameDialogSave"  Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="9,289,0,0" Click="NameDialogSave_Click" Foreground="White" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Grid.Column="1"/>
         <Button Content="Exit" x:Name="NameDialogExit"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,289,0,0" Click="NameDialogExit_Click"/>
 
     </Grid>
