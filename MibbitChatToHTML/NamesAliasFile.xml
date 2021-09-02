@@ -3,71 +3,101 @@
   <NameAliasEntry>
     <Alias>Tukov</Alias>
     <name>Kai Tukov</name>
-    <color>#110491</color>
-    <fontFace>Lucida Console, Monaco, monospace</fontFace>
-    <letterSpacing>0.07em</letterSpacing>
+    <tagColor>#110491</tagColor>
+    <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
+    <tagLetterSpacing>0.07em</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>ST4313</Alias>
     <name>ST 𝟰𝟯𝟭𝟯</name>
-    <color>#110491</color>
-    <fontFace>Lucida Console, Monaco, monospace</fontFace>
-    <letterSpacing>0.08em</letterSpacing>
+    <tagColor>#110491</tagColor>
+    <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
+    <tagLetterSpacing>0.07em</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Yara</Alias>
     <name>Yara Sherred</name>
-    <color>#666666</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.07em</letterSpacing>
+    <tagColor>#666666</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Damian</Alias>
     <name>Damian Stark</name>
-    <color>#800000</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.07em</letterSpacing>
+    <tagColor>#800000</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Minx</Alias>
     <name>Guylian</name>
-    <color>#5200CC</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.07em</letterSpacing>
+    <tagColor>#5200CC</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Nora</Alias>
     <name>Guylian</name>
-    <color>#5200CC</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.07em</letterSpacing>
+    <tagColor>#5200CC</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>BlackSmith</Alias>
     <name>BlackSmith</name>
-    <color>#800000</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.08em</letterSpacing>
+    <tagColor>#800000</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>BigBadWolf</Alias>
     <name>Damian Stark</name>
-    <color>#800000</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.07em</letterSpacing>
+    <tagColor>#800000</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Blacksmith</Alias>
     <name>BlackSmith</name>
-    <color>#800000</color>
-    <fontFace>Arial, sans-serif</fontFace>
-    <letterSpacing>0.08em</letterSpacing>
+    <tagColor>#800000</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Guyli</Alias>
     <name>Guylian</name>
-    <color>#5200CC</color>
-    <fontFace>Arial, Sans-serif</fontFace>
-    <letterSpacing>0.007em</letterSpacing>
+    <tagColor>#5200CC</tagColor>
+    <tagFontFace>Arial, Sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>Arial, sans-serif</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
 </nameData>
