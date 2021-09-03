@@ -11,18 +11,17 @@
         <TextBox HorizontalAlignment="Left" Height="25" x:Name="FileNameTextBox" Text="File" VerticalAlignment="Top" Width="456" Margin="221,10,0,0"/>
         <Button Content="Open File" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="682,10,0,0" Click="Button_Click" Height="25"/>
 
-        <TextBox HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="ChatTextBox" IsReadOnly="True" Height="322" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="772" Margin="10,62,0,0"/>
+        <TextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="ChatTextBox" IsReadOnly="True" TextWrapping="Wrap" Text="TextBox" Margin="10,62,10,35"/>
 
-        <Button Content="Copy Text" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="707,394,0,0" Click="Button_Click_1"/>
-        <CheckBox Content="CB Cleaned" x:Name="CBCleanedCheckBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,42,0,0" Checked="CBCleanedCheckBox_Checked" />
-        <CheckBox Content="Unformatted / MIRC style" x:Name="UnformattedCheckBox" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,42,0,0" Checked="UnformattedCheckBox_Checked" />
+        <Button Content="Copy Text" Margin="0,0,10,5" Click="Button_Click_1" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <CheckBox Content="Unformatted / MIRC style" x:Name="UnformattedCheckBox" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,42,0,0" Checked="UnformattedCheckBox_Checked" />
         <Label Content="Total Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="289,36,0,0"/>
         <Label Content="0" HorizontalAlignment="Left" x:Name="TotalLinesText" VerticalAlignment="Top" Margin="396,36,0,0"/>
         <Label Content="Formatted Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="448,36,0,0"/>
         <Label Content="0" HorizontalAlignment="Left" x:Name="FormattedLinesText" VerticalAlignment="Top" Margin="585,36,0,0"/>
         <ComboBox x:Name="TextFileTypeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="60,10,0,0" Height="25"/>
         <Label Content="Format:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,9,0,0" Height="25"/>
-        <Button Content="Names" x:Name="NameControlButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,394,0,0" Click="NameControlButton_Click">
+        <Button Content="Names" x:Name="NameControlButton" HorizontalAlignment="Left" Width="75" Margin="10,0,0,5" Click="NameControlButton_Click" Height="20" VerticalAlignment="Bottom">
             <Button.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
             </Button.Foreground>

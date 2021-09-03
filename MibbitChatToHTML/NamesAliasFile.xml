@@ -7,7 +7,7 @@
     <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
     <tagLetterSpacing>0.07em</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -17,7 +17,7 @@
     <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
     <tagLetterSpacing>0.07em</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -27,7 +27,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -37,7 +37,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -47,7 +47,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -57,7 +57,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -67,7 +67,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -77,7 +77,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -87,7 +87,7 @@
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
@@ -97,7 +97,7 @@
     <tagFontFace>Arial, Sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>Arial, sans-serif</textFontFace>
+    <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
 </nameData>

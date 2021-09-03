@@ -73,12 +73,12 @@ namespace MibbitChatToHTML
 
         private void CBCleanedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            UnformattedCheckBox.IsChecked = false;
+            
         }
 
         private void UnformattedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            CBCleanedCheckBox.IsChecked = false;
+            
         }
 
         private void NameControlButton_Click(object sender, RoutedEventArgs e)

@@ -13,6 +13,7 @@ namespace MibbitChatToHTML
         static int errorLineCount = 0;
         static int lineCount = 0;
         static bool isFileGood = true;
+        static readonly string endParagraphTag = " </p>";
 
         public static List<string> ProcessChatFile(string fileName, int TextFileType, MainWindow mw)
         {
@@ -30,17 +31,13 @@ namespace MibbitChatToHTML
             isFileGood = true;
             if (isFileGood)
             {
-                if (TextFileType == 1 && formatKey == 3)
+                if (formatKey > 2)
                 {
-                    return FullFormattedDiscordLineFormat(allChatText, mw);
+                    return ProcessDiscordChatLines(allChatText, formatKey, mw);
                 }
-                else if (TextFileType == 0)
+                else
                 {
                     return ProcessMibbitChatLines(allChatText, formatKey, mw);
-                }
-                else if (TextFileType == 1 && formatKey == 2)
-                {
-                    return ProcessDiscordChatLines(allChatText, mw);
                 }
             }
             return justChatLines;
@@ -65,19 +62,26 @@ namespace MibbitChatToHTML
             return currentChatLines;
         }
 
-        private static List<string> ProcessDiscordChatLines(List<string> allChatText, MainWindow currentWindow)
+        private static List<string> ProcessDiscordChatLines(List<string> allChatText, int formatKey, MainWindow currentWindow)
         {
             List<string> currentChatLines = new List<string>();
-            foreach (string line in allChatText)
+            if (formatKey == 3)
             {
-                if (line.Length > 2 && isFileGood)
+                foreach (string line in allChatText)
                 {
-                    string cleanLine = CleanUpDiscordFormatting(line, 2, currentWindow.mainNameDataTable);
-                    Tuple<int, string> discoLine = new Tuple<int, string>(lineCount, cleanLine);
-                    //processedChatLines.Add(discoLine);
-                    currentChatLines.Add(cleanLine + "\r\n");
+                    if (line.Length > 2 && isFileGood)
+                    {
+                        string cleanLine = UnformattedDiscordLineFormat(line, currentWindow.mainNameDataTable);
+                        //processedChatLines.Add(discoLine);
+                        currentChatLines.Add(cleanLine + "\r\n");
+                    }
+                    lineCount++;
                 }
-                lineCount++;
+            }
+            //Needs a different sort of management of lines due to look ahead
+            else if (formatKey == 4)
+            {
+                currentChatLines = FullFormattedDiscordLineFormat(allChatText, currentWindow);
             }
             currentWindow.FormattedLinesText.Content = currentChatLines.Count.ToString();
             return currentChatLines;
@@ -91,42 +95,63 @@ namespace MibbitChatToHTML
             for (int i = 0; i < allChatText.Count; i++)
             {
                 //Get current line
-                string currentLine = allChatText[i];
+
                 //See if current line has a header if so...
-                if (CheckForHeaderLine(currentLine) && (i < allChatText.Count))
-                {
-                    //Look ahead - Start at one
-                    i++;
-                    currentLine = AddNameTags(currentLine, currentWindow.mainNameDataTable);
-                    composedLine = JoinAndCleanFormattedLines(allChatText, i, currentLine);
-                    i++;
-                    if (i < allChatText.Count)
-                    {
-
-
-                        //Check if the next-next line has date and EM dash - if not join line.
-                        while (!CheckForHeaderLine(allChatText[i]))
-                        {
-                            string tempLine = composedLine;
-                            composedLine = JoinAndCleanFormattedLines(allChatText, i, tempLine);
-                            i++;
-
-                        }
-                    }
-                    currentLineList.Add(CleanOddCharacters(composedLine) + "</p>\r\n");
-                    //Adjust counter back
-                    i--;
-                }
+                currentLineList.Add(ProcessFullFormatDiscordChat(allChatText, currentWindow.mainNameDataTable, ref i));
             }
             currentWindow.FormattedLinesText.Content = currentLineList.Count.ToString();
             return currentLineList;
         }
 
-        private static string JoinAndCleanFormattedLines(List<string> allChatText, int i, string currentLine)
+        private static string ProcessFullFormatDiscordChat(List<string> allChatText, DataTable nameTable, ref int i)
+        {
+            string currentLine = string.Empty;
+            List<string> currentLineList = new List<string>();
+
+            //Add current line by AllChatText[i]
+            string LineToProcess = allChatText[i].Length > 2 ? allChatText[i].ToString() : string.Empty;
+
+            //Need to add a line-feed break processor
+            if (CheckForHeaderLine(LineToProcess) && (i < allChatText.Count))
+            {
+                string composedLine = string.Empty;
+                //Look ahead - Start at one
+                i++;
+                LineToProcess = AddNameTags(LineToProcess, nameTable);
+                composedLine = JoinAndCleanFormattedLines(allChatText, i, LineToProcess, false) + "<br />";
+                
+                //Look head again
+                i++;
+                if (i < allChatText.Count)
+                {
+                    //Check if the next-next line has date and EM dash - if not join line.
+                    while (!CheckForHeaderLine(allChatText[i]))
+                    {
+                        string tempLine = composedLine;
+                        composedLine = JoinAndCleanFormattedLines(allChatText, i, tempLine, true);
+                        i++;
+                    }
+                }
+                string cleanedLine = CleanOddCharacters(composedLine);
+                currentLine = (cleanedLine.Substring(0, (cleanedLine.Length-6)) + endParagraphTag + "\r\n");
+                //Adjust counter back
+                i--;
+            }
+            return currentLine;
+        }
+
+        private static string JoinAndCleanFormattedLines(List<string> allChatText, int i, string currentLine, bool needsLineFeed)
         {
             string composedLine;
             string nextLine = allChatText[i];
-            composedLine = currentLine + " " + nextLine.Replace("\r\n", " ");
+            if (needsLineFeed)
+            {
+                composedLine = currentLine.Replace("\r\n", " ") + " <br />" + (nextLine.Length > 2 ? nextLine.Replace("\r\n", " ") + "<br />" : string.Empty);
+            }
+            else
+            {
+                composedLine = currentLine.Replace("\r\n", " ") + " " + nextLine.Replace("\r\n", " ") + " ";
+            }
             return composedLine;
         }
 
@@ -148,48 +173,41 @@ namespace MibbitChatToHTML
         }
         private static int GetFormatKey(MainWindow mw)
         {
-            //Monstrously ill advised, but I'm feeling lazy
-            if (mw.CBCleanedCheckBox.IsChecked == true)
+            //1 = mibbit + formatted
+            if (mw.UnformattedCheckBox.IsChecked == false && mw.TextFileTypeComboBox.SelectedIndex == 0)
             {
                 return 1;
             }
-            else if (mw.UnformattedCheckBox.IsChecked == true)
+            //2 = mibbit + unformatted
+            else if (mw.UnformattedCheckBox.IsChecked == true && mw.TextFileTypeComboBox.SelectedIndex == 0)
             {
                 return 2;
             }
-            else
+            //3 = discord + Mirc style
+            else if (mw.UnformattedCheckBox.IsChecked == true && mw.TextFileTypeComboBox.SelectedIndex == 1)
             {
                 return 3;
             }
-        }
-
-        private static string CleanUpDiscordFormatting(string line, int formatKey, DataTable nameDataTable)
-        {
-            string cleanedLine = string.Empty;
-
-            if (formatKey == 1)
+            else if (mw.UnformattedCheckBox.IsChecked == false && mw.TextFileTypeComboBox.SelectedIndex == 1)
             {
-                throw new Exception();
+                return 4;
             }
-            else if (formatKey == 2)
-            {
-                cleanedLine = UnformattedDiscordLineFormat(line, cleanedLine, nameDataTable);
-            }
-            return cleanedLine;
+            else
+            { return 0; }
         }
-
 
         private static string CleanUpMibbitFormatting(string line, int formatKey, DataTable nameDataTable)
         {
             //<p style='color:#TEXTCOLORHERE;'><span style='font-weight: bold; color:#000000;'>NAME</span> Text </p>
             string cleanedLine = string.Empty;
-            if (formatKey == 1)
-            {
-                cleanedLine = CBCleanedVersionLineFormat(line, cleanedLine, nameDataTable);
-            }
-            else if (formatKey == 2)
+            if (formatKey == 2)
             {
                 cleanedLine = UnformattedLineFormat(line, cleanedLine, nameDataTable);
+
+            }
+            else if (formatKey == 1)
+            {
+                cleanedLine = CBCleanedVersionLineFormat(line, cleanedLine, nameDataTable);
             }
             else
             {
@@ -226,7 +244,7 @@ namespace MibbitChatToHTML
                     name = AddNameTags(name, nameDataTable);
                     post = CleanOddCharacters(post);
                     tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
-                    cleanedLine = name + post + " </p>";
+                    cleanedLine = name + post + endParagraphTag;
                 }
                 else
                 {
@@ -280,9 +298,10 @@ namespace MibbitChatToHTML
             }
         }
 
-        private static string UnformattedDiscordLineFormat(string line, string cleanedLine, DataTable nameDataTable)
+        private static string UnformattedDiscordLineFormat(string line, DataTable nameDataTable)
         {
             string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
+            string cleanedLine = string.Empty;
             Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
 
             Match match = reg.Match(line);
@@ -304,7 +323,7 @@ namespace MibbitChatToHTML
                     name = AddNameTags(name, nameDataTable);
                     post = CleanOddCharacters(post);
                     tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
-                    cleanedLine = name + post + " </p>";
+                    cleanedLine = name + post + endParagraphTag;
                 }
                 else
                 {
@@ -388,7 +407,7 @@ namespace MibbitChatToHTML
 
                 name = AddNameTags(name, nameDataTable);
                 post = CleanOddCharacters(post);
-                cleanedLine = name + post + " </p>";
+                cleanedLine = name + post + endParagraphTag;
             }
 
             return cleanedLine;
@@ -409,6 +428,7 @@ namespace MibbitChatToHTML
             tempString = CharacterReplacer(tempString, "))", " )) ");
             tempString = CharacterReplacer(tempString, "_", string.Empty);
             tempString = CharacterReplacer(tempString, ".\"", ". \"");
+            tempString = CharacterReplacer(tempString, "<br /> <br /> <br />", "<br /> <br />");
 
             if (tempString.Length > 0)
             {
@@ -446,7 +466,9 @@ namespace MibbitChatToHTML
         {
             List<string> nameList = nameDataTable.AsEnumerable().Select(x => x[0].ToString()).ToList();
             int xyz = nameList.FindIndex(s => currentLine.Contains(s));
-            currentLine = "<p style='color:" + nameDataTable.Rows[xyz][2].ToString() + ";'><span style='font-weight: bold; color:#000000; font-family: " + nameDataTable.Rows[xyz][3].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][4].ToString() + ";'>" + nameDataTable.Rows[xyz][1].ToString() + ": " + "</span>";
+            currentLine = "<p style='color:" + nameDataTable.Rows[xyz][2].ToString() + "; font-family: " + nameDataTable.Rows[xyz][6].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][7].ToString() + ";'>" +
+                "<span style='font-weight: bold; color:" + nameDataTable.Rows[xyz][5].ToString() + "; font-family: " + nameDataTable.Rows[xyz][3].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][4].ToString() + ";'>" +
+                nameDataTable.Rows[xyz][1].ToString() + ": " + "</span>";
 
             return currentLine;
         }
