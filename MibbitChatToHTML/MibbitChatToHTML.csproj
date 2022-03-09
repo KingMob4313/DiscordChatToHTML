@@ -82,6 +82,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiscordChatFile.cs" />
+    <Compile Include="MibbitChatFile.cs" />
     <Compile Include="NameControl.xaml.cs">
       <DependentUpon>NameControl.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
