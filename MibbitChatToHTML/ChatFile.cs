@@ -16,6 +16,7 @@ namespace MibbitChatToHTML
         static int lineCount = 0;
         static bool isFileGood = true;
         static readonly string endParagraphTag = " </p>";
+        static readonly string regExPattern = @"^[a-zA-Z]+\s[a-zA-Z]+\s\—\s(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}\s((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$";
 
         public static List<string> ProcessChatFile(string fileName, int TextFileType, MainWindow mw)
         {
@@ -71,9 +72,10 @@ namespace MibbitChatToHTML
             {
                 foreach (string line in allChatText)
                 {
-                    if (line.Length > 2 && isFileGood)
+                    string processedLine = GatherFollowingLines(allChatText, lineCount);
+                    if (processedLine.Length > 2 && isFileGood)
                     {
-                        string cleanLine = UnformattedDiscordLineFormat(line, currentWindow.mainNameDataTable);
+                        string cleanLine = UnformattedDiscordLineFormat(processedLine, currentWindow.mainNameDataTable);
                         //processedChatLines.Add(discoLine);
                         currentChatLines.Add(cleanLine + "\r\n");
                     }
@@ -89,6 +91,54 @@ namespace MibbitChatToHTML
             return currentChatLines;
         }
 
+        private static string GatherFollowingLines(List<string> lineList, int currentLineCount)
+        {
+            //List<string> preAssembledLines = new List<string>();
+            StringBuilder assembledLine = new StringBuilder();
+            bool haveHeaderLine = false;
+            bool isPostDone = false;
+            int headerLineIndex = 0;
+            int endingLineIndex = 0;
+            int gatherLineCount = currentLineCount;
+            Regex reg = new Regex(regExPattern, RegexOptions.IgnoreCase);
+
+            while (!isPostDone && gatherLineCount < lineList.Count)
+            {
+                //line with header
+                Match match = reg.Match(lineList[gatherLineCount]);
+                if (match.Success)
+                {
+                    if (!haveHeaderLine)
+                    {
+                        haveHeaderLine = true;
+                        assembledLine.Append(lineList[gatherLineCount] + " █");
+                    }
+                    else
+                    {
+                        match = reg.Match(lineList[gatherLineCount]);
+                        if (match.Success)
+                        {
+                            isPostDone = true;
+                        }
+                    }
+                }
+                else
+                {
+                    assembledLine.Append("  " + lineList[gatherLineCount]);
+                }
+
+                gatherLineCount++;
+
+                if (isPostDone)
+                {
+                    //Back up ONE line because we found the next person's post.
+                    currentLineCount = gatherLineCount - 1;
+                }
+            }
+            return assembledLine.ToString();
+
+            //int spacer = match.Length;
+        }
 
         private static List<string> FullFormattedDiscordLineFormat(List<string> allChatText, MainWindow currentWindow)
         {
@@ -121,7 +171,7 @@ namespace MibbitChatToHTML
                 i++;
                 LineToProcess = AddNameTags(LineToProcess, nameTable);
                 composedLine = JoinAndCleanFormattedLines(allChatText, i, LineToProcess, false) + "<br />";
-                
+
                 //Look head again
                 i++;
                 if (i < allChatText.Count)
@@ -135,7 +185,7 @@ namespace MibbitChatToHTML
                     }
                 }
                 string cleanedLine = CleanOddCharacters(composedLine);
-                currentLine = (cleanedLine.Substring(0, (cleanedLine.Length-6)) + endParagraphTag + "\r\n");
+                currentLine = (cleanedLine.Substring(0, (cleanedLine.Length - 6)) + endParagraphTag + "\r\n");
                 //Adjust counter back
                 i--;
             }
@@ -302,42 +352,22 @@ namespace MibbitChatToHTML
 
         private static string UnformattedDiscordLineFormat(string line, DataTable nameDataTable)
         {
-            string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
             string cleanedLine = string.Empty;
-            Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
+            int nameLength = line.IndexOf('█');
 
-            Match match = reg.Match(line);
-            int spacer = match.Length;
-
-            if (match.Success && line.Length > 2)
+            if (nameLength > 0)
             {
-                string ggg = line[spacer].ToString();
-                if (ggg != "\t")
-                {
-                    string tempTrimmedLine = line.Substring(spacer, (line.Length - spacer));
+                string name = line.Substring(0, nameLength);
+                string post = line.Substring((nameLength + 1), (line.Length - nameLength - 1));
 
-                    int nameTagStart = 0;
-                    int nameTagEnd = tempTrimmedLine.IndexOf(':', nameTagStart + 1);
-                    string firstTemp = tempTrimmedLine.Replace(':', ' ');
-                    string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
-                    string post = tempTrimmedLine.Substring(nameTagEnd + 1);
-
-                    name = AddNameTags(name, nameDataTable);
-                    post = CleanOddCharacters(post);
-                    tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
-                    cleanedLine = name + post + endParagraphTag;
-                }
-                else
-                {
-                    cleanedLine = UserLogEntryHandler(line);
-                }
+                name = AddNameTags(name, nameDataTable);
+                post = CleanOddCharacters(post);
+                line = FormattingOddityCatcher(line);
+                cleanedLine = name + post + endParagraphTag;
             }
             else
             {
-                if (!match.Success)
-                {
-                    cleanedLine = "NO MATCH - MISSING LINE";
-                }
+                cleanedLine = "❌ - Line Error";
             }
             return cleanedLine;
         }

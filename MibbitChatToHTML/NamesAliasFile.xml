@@ -11,6 +11,16 @@
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
+    <Alias>Kai Tukov</Alias>
+    <name>Kai Tukov</name>
+    <tagColor>#110491</tagColor>
+    <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
+    <tagLetterSpacing>0.07em</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>initial</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
     <Alias>ST4313</Alias>
     <name>ST 𝟰𝟯𝟭𝟯</name>
     <tagColor>#110491</tagColor>
@@ -21,9 +31,29 @@
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
+    <Alias>Yara Sherred</Alias>
+    <name>Yara Sherred</name>
+    <tagColor>#666666</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>initial</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
     <Alias>Yara</Alias>
     <name>Yara Sherred</name>
     <tagColor>#666666</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>initial</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Damian Stark</Alias>
+    <name>Damian Stark</name>
+    <tagColor>#800000</tagColor>
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
@@ -41,8 +71,18 @@
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
+    <Alias>The Minx</Alias>
+    <name>Nora Reid</name>
+    <tagColor>#5200CC</tagColor>
+    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>initial</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
     <Alias>Minx</Alias>
-    <name>Guylian</name>
+    <name>Nora Reid</name>
     <tagColor>#5200CC</tagColor>
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
@@ -52,7 +92,7 @@
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Nora</Alias>
-    <name>Guylian</name>
+    <name>Nora Reid</name>
     <tagColor>#5200CC</tagColor>
     <tagFontFace>Arial, sans-serif</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>

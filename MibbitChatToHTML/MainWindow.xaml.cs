@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace MibbitChatToHTML
 {
-   
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -36,6 +36,7 @@ namespace MibbitChatToHTML
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            string allChat = string.Empty;
             annotatedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
 
@@ -50,18 +51,29 @@ namespace MibbitChatToHTML
                 FileNameTextBox.Text = currentFileName;
                 justChatLines = ChatFile.ProcessChatFile(OFD.FileName, TextFileTypeComboBox.SelectedIndex, this);
             }
-            string allChat = StreamOutLines(justChatLines);
-            ChatTextBox.Text = allChat;
+            if(justChatLines != null)
+            {
+                allChat = StreamOutLines(justChatLines);
+                ChatTextBox.Text = allChat;
+            }
         }
 
         private string StreamOutLines(List<string> justChatLines)
         {
-            string chat = string.Empty;
-            foreach (string line in justChatLines)
+            if (justChatLines.Count > 0)
             {
-                chat = chat + line;
+                string chat = string.Empty;
+                foreach (string line in justChatLines)
+                {
+                    chat = chat + line;
+                }
+                return chat;
             }
-            return chat;
+            else
+            {
+                return null;
+            }
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -73,12 +85,12 @@ namespace MibbitChatToHTML
 
         private void CBCleanedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void UnformattedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void NameControlButton_Click(object sender, RoutedEventArgs e)
