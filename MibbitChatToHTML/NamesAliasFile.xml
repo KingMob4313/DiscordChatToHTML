@@ -140,4 +140,14 @@
     <textFontFace>initial</textFontFace>
     <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Guest Player</Alias>
+    <name>Marcus Gangrel</name>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>Arial, Sans-serif</tagFontFace>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+    <textColor>#000000</textColor>
+    <textFontFace>initial</textFontFace>
+    <textLetterSpacing>normal</textLetterSpacing>
+  </NameAliasEntry>
 </nameData>

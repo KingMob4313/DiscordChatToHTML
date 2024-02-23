@@ -14,7 +14,7 @@
         <TextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="ChatTextBox" IsReadOnly="True" TextWrapping="Wrap" Text="TextBox" Margin="10,62,10,35"/>
 
         <Button Content="Copy Text" Margin="0,0,10,5" Click="Button_Click_1" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
-        <CheckBox Content="Unformatted / MIRC style" x:Name="UnformattedCheckBox" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,42,0,0" Checked="UnformattedCheckBox_Checked" />
+        <CheckBox Content="Unformatted / MIRC style" x:Name="UnformattedCheckBox" IsChecked="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,42,0,0" Checked="UnformattedCheckBox_Checked" />
         <Label Content="Total Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="289,36,0,0"/>
         <Label Content="0" HorizontalAlignment="Left" x:Name="TotalLinesText" VerticalAlignment="Top" Margin="396,36,0,0"/>
         <Label Content="Formatted Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="448,36,0,0"/>
