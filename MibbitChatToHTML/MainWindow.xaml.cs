@@ -124,5 +124,17 @@ namespace MibbitChatToHTML
             XMLDataTable = dataSet.Tables[0];
             return XMLDataTable;
         }
+
+        private void TextFileTypeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (TextFileTypeComboBox.SelectedValue.ToString() == "Discord")
+            {                
+                UnformattedCheckBox.Content = "Copied from Discord HTML";
+            }
+            else
+            {
+                UnformattedCheckBox.Content = "Unformatted / MIRC style";
+            }
+        }
     }
 }

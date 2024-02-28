@@ -19,7 +19,7 @@
         <Label Content="0" HorizontalAlignment="Left" x:Name="TotalLinesText" VerticalAlignment="Top" Margin="396,36,0,0"/>
         <Label Content="Formatted Lines in File:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="448,36,0,0"/>
         <Label Content="0" HorizontalAlignment="Left" x:Name="FormattedLinesText" VerticalAlignment="Top" Margin="585,36,0,0"/>
-        <ComboBox x:Name="TextFileTypeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="60,10,0,0" Height="25"/>
+        <ComboBox x:Name="TextFileTypeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="60,10,0,0" Height="25" SelectionChanged="TextFileTypeComboBox_SelectionChanged"/>
         <Label Content="Format:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,9,0,0" Height="25"/>
         <Button Content="Names" x:Name="NameControlButton" HorizontalAlignment="Left" Width="75" Margin="10,0,0,5" Click="NameControlButton_Click" Height="20" VerticalAlignment="Bottom">
             <Button.Foreground>

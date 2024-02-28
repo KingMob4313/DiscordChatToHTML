@@ -67,44 +67,93 @@ namespace MibbitChatToHTML
         private static List<string> ProcessDiscordChatLines(List<string> allChatText, int formatKey, MainWindow currentWindow)
         {
             List<string> currentChatLines = new List<string>();
+            //Discord Chat in HTML format
             if (formatKey == 3)
-                foreach (string line in allChatText)
-                {
-                    string processedLine = TrimmedDiscordLineFormat(line, currentWindow.mainNameDataTable);
-                    if (processedLine.Length > 2 && isFileGood)
-                    {
-                        currentChatLines.Add(processedLine + "\r\n");
-                    }
-                    //lineCount++;
-                }
-            else if (formatKey == 4)
             {
-                foreach (string line in allChatText)
+                allChatText = PreProcessHTMLDiscordLine(allChatText, currentWindow);
+            }
+            currentChatLines = ProcessCleanedDiscordLine(allChatText, currentWindow);
+            currentWindow.FormattedLinesText.Content = currentChatLines.Count.ToString();
+            return currentChatLines;
+        }
+
+        private static List<string> PreProcessHTMLDiscordLine(List<string> allChatText, MainWindow currentWindow)
+        {
+            string combinedLines = string.Join("↵", allChatText);
+            string trimmerLine = combinedLines;
+            bool kickOut = false;
+            List<string> formattedChatLines = new List<string>();
+            Regex reg = new Regex(@"[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+\↵\s\—\s\↵\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)");
+            trimmerLine = combinedLines;
+            while (!kickOut){
+                string nameDateBlock = string.Empty;
+
+                Match match = reg.Match(trimmerLine);
+                if (match.Index == 0 && match.Length > 0)
                 {
-                    string processedLine = GatherFollowingLines(allChatText, lineCount);
-                    if (processedLine.Length > 2 && isFileGood)
+                    string chatLine = string.Empty;
+                    int nameLineLength = 0;
+                    int chatLineLength = 0;
+                    int returnCharacterCount = 0;
+                    nameDateBlock = trimmerLine.Substring(match.Index, match.Length);
+                    nameLineLength = nameDateBlock.Length;
+                    formattedChatLines.Add(nameDateBlock);
+
+                    trimmerLine = trimmerLine.Substring(nameLineLength, (trimmerLine.Length - nameLineLength));
+                    trimmerLine = trimmerLine.Substring(1);
+                    Match nextMatch = reg.Match(trimmerLine);
+                    if (match.Success)
                     {
-                        string cleanLine = UnformattedDiscordLineFormat(processedLine, currentWindow.mainNameDataTable);
-                        
-                        if (cleanLine.Length > 0)
+                        if(nextMatch.Success)
                         {
-                            currentChatLines.Add(cleanLine + "\r\n");
+                            string preChatLine = trimmerLine.Substring(0, nextMatch.Index - 1);
+                            chatLine = preChatLine;
+                            chatLineLength = chatLine.Length - returnCharacterCount;
                         }
                         else
                         {
-                            string xyz = "taco";
+                            chatLine = trimmerLine;
+                            kickOut = true;
                         }
                     }
-                    //lineCount++;
+                    formattedChatLines.Add(chatLine);
+                    trimmerLine = trimmerLine.Substring((chatLineLength + returnCharacterCount + 1), trimmerLine.Length - chatLineLength - returnCharacterCount - 1);
                 }
             }
-            //Needs a different sort of management of lines due to look ahead
-            else if (formatKey == 53)
+            formattedChatLines = removeReturnCharacters(formattedChatLines);
+
+            return formattedChatLines;
+        }
+
+        private static List<string> removeReturnCharacters(List<string> formattedChatLines)
+        {
+            List<string> cleanedChatLines = new List<string>();
+            foreach (string line in formattedChatLines)
             {
-                currentChatLines = FullFormattedDiscordLineFormat(allChatText, currentWindow);
+                cleanedChatLines.Add(line.Replace("↵", string.Empty));
             }
-            currentWindow.FormattedLinesText.Content = currentChatLines.Count.ToString();
-            return currentChatLines;
+            return cleanedChatLines;
+        }
+
+        private static List<string> ProcessCleanedDiscordLine(List<string> allChatText, MainWindow currentWindow)
+        {
+            List<string> ProcessDiscordChatLines = new List<string>();
+
+            //Discord Chat in native APP format
+            foreach (string line in allChatText)
+            {
+                string processedLine = GatherFollowingLines(allChatText, lineCount);
+                if (processedLine.Length > 2 && isFileGood)
+                {
+                    string cleanLine = UnformattedDiscordLineFormat(processedLine, currentWindow.mainNameDataTable);
+
+                    if (cleanLine.Length > 0)
+                    {
+                        ProcessDiscordChatLines.Add(cleanLine + "\r\n");
+                    }
+                }
+            }
+            return ProcessDiscordChatLines;
         }
 
         private static string RemoveStrayDates(string chatLine)
@@ -167,8 +216,6 @@ namespace MibbitChatToHTML
             }
             lineCount = gatherLineCount;
             return assembledLine.ToString();
-
-            //int spacer = match.Length;
         }
 
         private static List<string> FullFormattedDiscordLineFormat(List<string> allChatText, MainWindow currentWindow)
@@ -305,18 +352,18 @@ namespace MibbitChatToHTML
         {
             //Right now "Word breaks things. Need to clean up when there is a quote and then not a space
             string trimmedLine = string.Empty;
-
-            string pattern = @"^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\t";
+            int timeStampOffset = 9;
+            string pattern = @"^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s{4}";
             Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
 
             Match match = reg.Match(line);
 
             if (match.Success && line.Length > 2)
             {
-                string ggg = line[6].ToString();
+                string ggg = line[timeStampOffset].ToString();
                 if (ggg != "\t")
                 {
-                    string tempTrimmedLine = line.Substring(6, (line.Length - 6));
+                    string tempTrimmedLine = line.Substring(timeStampOffset, (line.Length - timeStampOffset));
 
                     int nameTagStart = 0;
                     int nameTagEnd = tempTrimmedLine.IndexOf('\t', nameTagStart + 1);
@@ -383,11 +430,13 @@ namespace MibbitChatToHTML
 
         private static string TrimmedDiscordLineFormat(string line, DataTable nameDataTable)
         {
-            string pattern = @"^\[([0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)\]\s";
+            string pattern = @"^[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+\n\s\—\s\n\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)";
+            
             string cleanedLine = string.Empty;
             Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
 
             Match match = reg.Match(line);
+            int xyz = match.Length;
             int spacer = match.Length;
 
             if (match.Success && line.Length > 2)
@@ -500,14 +549,39 @@ namespace MibbitChatToHTML
             return tempTrimmedLine;
         }
 
+        //Sunsetted, not sure
+
+        //private static string CBCleanedVersionLineFormat(string line, string cleanedLine, DataTable nameDataTable)
+        //{
+        //    if (line.StartsWith("*") && line.Length > 2)
+        //    {
+        //        int nameTagStart = line.IndexOf('*');
+        //        int nameTagEnd = line.IndexOf('*', nameTagStart + 1);
+        //        string firstTemp = line.Replace(':', ' ');
+        //        string name = firstTemp.Substring((nameTagStart + 1), ((nameTagEnd - nameTagStart) - 2));
+        //        string post = line.Substring(nameTagEnd + 1);
+
+        //        name = AddNameTags(name, nameDataTable);
+        //        post = CleanOddCharacters(post);
+        //        cleanedLine = name + post + endParagraphTag;
+        //    }
+
+        //    return cleanedLine;
+        //}
+
         private static string CBCleanedVersionLineFormat(string line, string cleanedLine, DataTable nameDataTable)
         {
-            if (line.StartsWith("*") && line.Length > 2)
+            string pattern = @"^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\t";
+            Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
+
+            Match match = reg.Match(line);
+
+            if (match.Success && line.Length > 2 && !line.Contains("\t***"))
             {
-                int nameTagStart = line.IndexOf('*');
-                int nameTagEnd = line.IndexOf('*', nameTagStart + 1);
-                string firstTemp = line.Replace(':', ' ');
-                string name = firstTemp.Substring((nameTagStart + 1), ((nameTagEnd - nameTagStart) - 2));
+                int nameTagStart = 6;
+                int nameTagEnd = line.IndexOf('\t', nameTagStart);
+                string firstTemp = line;
+                string name = firstTemp.Substring((nameTagStart), ((nameTagEnd - nameTagStart)));
                 string post = line.Substring(nameTagEnd + 1);
 
                 name = AddNameTags(name, nameDataTable);
@@ -570,10 +644,13 @@ namespace MibbitChatToHTML
         private static string AddNameTags(string currentLine, DataTable nameDataTable)
         {
             List<string> nameList = nameDataTable.AsEnumerable().Select(x => x[0].ToString()).ToList();
-            int xyz = nameList.FindIndex(s => currentLine.Contains(s));
-            currentLine = "<p style='color:" + nameDataTable.Rows[xyz][2].ToString() + "; font-family: " + nameDataTable.Rows[xyz][6].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][7].ToString() + ";'>" +
-                "<span style='font-weight: bold; color:" + nameDataTable.Rows[xyz][5].ToString() + "; font-family: " + nameDataTable.Rows[xyz][3].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][4].ToString() + ";'>" +
-                nameDataTable.Rows[xyz][1].ToString() + ": " + "</span>";
+            if (currentLine.Length > 4)
+            {
+                int xyz = nameList.FindIndex(s => currentLine.Contains(s));
+                currentLine = "<p style='color:" + nameDataTable.Rows[xyz][2].ToString() + "; font-family: " + nameDataTable.Rows[xyz][6].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][7].ToString() + ";'>" +
+                    "<span style='font-weight: bold; color:" + nameDataTable.Rows[xyz][5].ToString() + "; font-family: " + nameDataTable.Rows[xyz][3].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][4].ToString() + ";'>" +
+                    nameDataTable.Rows[xyz][1].ToString() + ": " + "</span>";
+            }
 
             return currentLine;
         }
