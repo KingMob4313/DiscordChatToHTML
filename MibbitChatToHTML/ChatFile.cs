@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Need to sunset most of this and make this abstract
 /// </summary>
-namespace MibbitChatToHTML
+namespace ChatToHTML
 {
     class ChatFile
     {

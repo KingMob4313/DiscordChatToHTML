@@ -1,7 +1,7 @@
-﻿<Application x:Class="MibbitChatToHTML.App"
+﻿<Application x:Class="ChatToHTML.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MibbitChatToHTML"
+             xmlns:local="clr-namespace:ChatToHTML"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
