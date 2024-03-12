@@ -37,6 +37,8 @@ namespace MibbitChatToHTML
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string allChat = string.Empty;
+            ChatTextBox.Clear();
+
             annotatedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
 

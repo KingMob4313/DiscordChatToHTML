@@ -85,7 +85,8 @@ namespace MibbitChatToHTML
             List<string> formattedChatLines = new List<string>();
             Regex reg = new Regex(@"[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+\↵\s\—\s\↵\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)");
             trimmerLine = combinedLines;
-            while (!kickOut){
+            while (!kickOut)
+            {
                 string nameDateBlock = string.Empty;
 
                 Match match = reg.Match(trimmerLine);
@@ -104,7 +105,7 @@ namespace MibbitChatToHTML
                     Match nextMatch = reg.Match(trimmerLine);
                     if (match.Success)
                     {
-                        if(nextMatch.Success)
+                        if (nextMatch.Success)
                         {
                             string preChatLine = trimmerLine.Substring(0, nextMatch.Index - 1);
                             chatLine = preChatLine;
@@ -216,21 +217,6 @@ namespace MibbitChatToHTML
             }
             lineCount = gatherLineCount;
             return assembledLine.ToString();
-        }
-
-        private static List<string> FullFormattedDiscordLineFormat(List<string> allChatText, MainWindow currentWindow)
-        {
-            List<string> currentLineList = new List<string>();
-            string composedLine = string.Empty;
-            for (int i = 0; i < allChatText.Count; i++)
-            {
-                //Get current line
-
-                //See if current line has a header if so...
-                currentLineList.Add(ProcessFullFormatDiscordChat(allChatText, currentWindow.mainNameDataTable, ref i));
-            }
-            currentWindow.FormattedLinesText.Content = currentLineList.Count.ToString();
-            return currentLineList;
         }
 
         private static string ProcessFullFormatDiscordChat(List<string> allChatText, DataTable nameTable, ref int i)
@@ -431,7 +417,7 @@ namespace MibbitChatToHTML
         private static string TrimmedDiscordLineFormat(string line, DataTable nameDataTable)
         {
             string pattern = @"^[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+\n\s\—\s\n\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)";
-            
+
             string cleanedLine = string.Empty;
             Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
 
@@ -475,23 +461,44 @@ namespace MibbitChatToHTML
         private static string UnformattedDiscordLineFormat(string line, DataTable nameDataTable)
         {
             string cleanedLine = string.Empty;
-            int nameLength = line.IndexOf('█');
+            int headerLength = line.IndexOf('█');
+
+            string headerLine = line.Substring(0, headerLength);
+            string post = line.Substring((headerLength + 1), (line.Length - headerLength - 1));
+
+            int nameLength = line.IndexOf('—');
+            string name = headerLine.Substring(0, nameLength - 1);
 
             if (nameLength > 0)
             {
-                string name = line.Substring(0, nameLength);
-                string post = line.Substring((nameLength + 1), (line.Length - nameLength - 1));
-
-                name = AddNameTags(name, nameDataTable);
-                post = CleanOddCharacters(post);
-                line = FormattingOddityCatcher(line);
-                cleanedLine = name + post + endParagraphTag;
+                InCharacterPost currentInCharacterPost = new InCharacterPost();
+                currentInCharacterPost = currentInCharacterPost.GetInCharacterPost(name, post, nameDataTable);
+                cleanedLine = ConvertInCharacterPostToHTMLPostLine(currentInCharacterPost);
             }
             else
             {
                 cleanedLine = "❌ - Line Error";
             }
             return cleanedLine;
+        }
+
+        private static string ConvertInCharacterPostToHTMLPostLine(InCharacterPost intakePost)
+        {
+            string currentHTMLLine = "<p style='color:" +
+            intakePost.UserColor + "; font-family: " +
+            intakePost.CharacterFontInfo.FontFamily + "; letter-spacing: " +
+            intakePost.CharacterFontInfo.LetterSpacing + ";' class='" +
+
+            PostTools.RemoveWhitespace(intakePost.CharacterName) + "_Paragraph'>" +
+            "<span style='font-weight: bold; color: " +
+            intakePost.HeaderColor + ";'" + " class='" +
+            PostTools.RemoveWhitespace(intakePost.CharacterName) +
+            "_NameBlock'>" +
+            intakePost.CharacterName + ": " + "</span>";
+
+            currentHTMLLine += intakePost.PostContent + "</p>";
+
+            return currentHTMLLine;
         }
 
         private static string UserLogEntryHandler(string line)
@@ -592,6 +599,11 @@ namespace MibbitChatToHTML
             return cleanedLine;
         }
 
+        private static string AddNameTags(string name, DataTable nameDataTable)
+        {
+            throw new NotImplementedException();
+        }
+
         private static string CleanOddCharacters(string post)
         {
             string tempString = string.Empty;
@@ -640,19 +652,10 @@ namespace MibbitChatToHTML
                 return tempString;
             }
         }
-
-        private static string AddNameTags(string currentLine, DataTable nameDataTable)
+        private InCharacterPost GetCharacterPostInfo(string thisPost, DataTable nameDataTable)
         {
-            List<string> nameList = nameDataTable.AsEnumerable().Select(x => x[0].ToString()).ToList();
-            if (currentLine.Length > 4)
-            {
-                int xyz = nameList.FindIndex(s => currentLine.Contains(s));
-                currentLine = "<p style='color:" + nameDataTable.Rows[xyz][2].ToString() + "; font-family: " + nameDataTable.Rows[xyz][6].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][7].ToString() + ";'>" +
-                    "<span style='font-weight: bold; color:" + nameDataTable.Rows[xyz][5].ToString() + "; font-family: " + nameDataTable.Rows[xyz][3].ToString() + "; letter-spacing: " + nameDataTable.Rows[xyz][4].ToString() + ";'>" +
-                    nameDataTable.Rows[xyz][1].ToString() + ": " + "</span>";
-            }
-
-            return currentLine;
+            InCharacterPost thisPostLine = new InCharacterPost(thisPost, nameDataTable);
+            return thisPostLine;
         }
     }
 }

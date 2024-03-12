@@ -34,7 +34,7 @@
     <Alias>Yara Sherred</Alias>
     <name>Yara Sherred</name>
     <tagColor>#666666</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagFontFace>Overlock</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
     <textFontFace>initial</textFontFace>
@@ -44,7 +44,7 @@
     <Alias>Yara</Alias>
     <name>Yara Sherred</name>
     <tagColor>#666666</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagFontFace>Overlock</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
     <textFontFace>initial</textFontFace>
@@ -74,7 +74,7 @@
     <Alias>The Minx</Alias>
     <name>Nora Reid</name>
     <tagColor>#5200CC</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagFontFace>Libre Caslon Text</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
     <textFontFace>initial</textFontFace>
@@ -84,7 +84,7 @@
     <Alias>Minx</Alias>
     <name>Nora Reid</name>
     <tagColor>#5200CC</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagFontFace>Libre Caslon Text</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
     <textFontFace>initial</textFontFace>
@@ -94,7 +94,7 @@
     <Alias>Nora</Alias>
     <name>Nora Reid</name>
     <tagColor>#5200CC</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
+    <tagFontFace>Libre Caslon Textf</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
     <textFontFace>initial</textFontFace>
@@ -134,7 +134,7 @@
     <Alias>Guyli</Alias>
     <name>Guylian</name>
     <tagColor>#5200CC</tagColor>
-    <tagFontFace>Arial, Sans-serif</tagFontFace>
+    <tagFontFace>Libre Caslon Text</tagFontFace>
     <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
     <textFontFace>initial</textFontFace>

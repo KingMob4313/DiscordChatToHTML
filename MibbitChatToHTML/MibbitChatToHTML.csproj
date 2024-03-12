@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InCharacterPost.cs" />
+    <Compile Include="PostTools.cs" />
     <Compile Include="WikidotPageFormat.cs" />
     <Page Include="CorrectionControl.xaml">
       <SubType>Designer</SubType>
