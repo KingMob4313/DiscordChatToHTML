@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Shapes;
 /// <summary>
 /// Need to sunset most of this and make this abstract
 /// </summary>
@@ -22,26 +23,28 @@ namespace ChatToHTML
         {
             List<Tuple<int, string>> processedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
+            List<string> allChatText;
             Encoding fileEncoding = GetChatEncoding(fileName);
-
+            try
+            {
+                allChatText = File.ReadAllLines(fileName, fileEncoding).ToList<string>();
+                isFileGood = true;
+            }
+            catch
+            {
+                allChatText = new List<string>();
+                isFileGood = false;
+            }
             //Fix word/line wrapped lines by joining them to previous
-            List<string> allChatText = File.ReadAllLines(fileName, fileEncoding).ToList<string>();
+
             mw.TotalLinesText.Content = allChatText.Count.ToString();
 
             int formatKey = GetFormatKey(mw);
-            lineCount = 0;
-            errorLineCount = 0;
-            isFileGood = true;
+
             if (isFileGood)
             {
-                if (formatKey > 2)
-                {
-                    return ProcessDiscordChatLines(allChatText, formatKey, mw);
-                }
-                else
-                {
-                    return ProcessMibbitChatLines(allChatText, formatKey, mw);
-                }
+
+                return ProcessDiscordChatLines(allChatText, formatKey, mw);
             }
             return justChatLines;
         }
@@ -79,51 +82,62 @@ namespace ChatToHTML
 
         private static List<string> PreProcessHTMLDiscordLine(List<string> allChatText, MainWindow currentWindow)
         {
-            string combinedLines = string.Join("↵", allChatText);
-            string trimmerLine = combinedLines;
-            bool kickOut = false;
+            string returnCharacter = "↵";
             List<string> formattedChatLines = new List<string>();
-            Regex reg = new Regex(@"[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+\↵\s\—\s\↵\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)");
-            trimmerLine = combinedLines;
+            foreach (string currentLine in allChatText)
+            {
+                string fixedLine = currentLine;
+                if (currentLine.Length == 0)
+                {
+                    fixedLine = returnCharacter;
+                }
+                formattedChatLines.Add(fixedLine);
+            }
+
+            string combinedLines = string.Join(returnCharacter, formattedChatLines);
+            bool kickOut = false;
+
+            List<string> cleanedChatLines = new List<string>();
+            Regex reg = new Regex(@"([A-Z]{1}[a-z]|[A-Z]{1}[A-Za-z]+)+\s([A-Z]{1}[a-z]+|[A-Z]{2})\↵\s\—\s\↵\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)");
             while (!kickOut)
             {
                 string nameDateBlock = string.Empty;
 
-                Match match = reg.Match(trimmerLine);
+                Match match = reg.Match(combinedLines);
                 if (match.Index == 0 && match.Length > 0)
                 {
                     string chatLine = string.Empty;
                     int nameLineLength = 0;
                     int chatLineLength = 0;
                     int returnCharacterCount = 0;
-                    nameDateBlock = trimmerLine.Substring(match.Index, match.Length);
+                    nameDateBlock = combinedLines.Substring(match.Index, match.Length);
                     nameLineLength = nameDateBlock.Length;
-                    formattedChatLines.Add(nameDateBlock);
+                    cleanedChatLines.Add(nameDateBlock);
 
-                    trimmerLine = trimmerLine.Substring(nameLineLength, (trimmerLine.Length - nameLineLength));
-                    trimmerLine = trimmerLine.Substring(1);
-                    Match nextMatch = reg.Match(trimmerLine);
+                    combinedLines = combinedLines.Substring(nameLineLength, (combinedLines.Length - nameLineLength));
+                    combinedLines = combinedLines.Substring(1);
+                    Match nextMatch = reg.Match(combinedLines);
                     if (match.Success)
                     {
                         if (nextMatch.Success)
                         {
-                            string preChatLine = trimmerLine.Substring(0, nextMatch.Index - 1);
+                            string preChatLine = combinedLines.Substring(0, nextMatch.Index - 1);
                             chatLine = preChatLine;
                             chatLineLength = chatLine.Length - returnCharacterCount;
                         }
                         else
                         {
-                            chatLine = trimmerLine;
+                            chatLine = combinedLines;
                             kickOut = true;
                         }
                     }
-                    formattedChatLines.Add(chatLine);
-                    trimmerLine = trimmerLine.Substring((chatLineLength + returnCharacterCount + 1), trimmerLine.Length - chatLineLength - returnCharacterCount - 1);
+                    cleanedChatLines.Add(chatLine.Replace((returnCharacter + returnCharacter + returnCharacter), "¶").Replace(returnCharacter, "¶"));
+                    combinedLines = combinedLines.Substring((chatLineLength + returnCharacterCount + 1), combinedLines.Length - chatLineLength - returnCharacterCount - 1);
                 }
             }
-            formattedChatLines = removeReturnCharacters(formattedChatLines);
+            cleanedChatLines = removeReturnCharacters(cleanedChatLines);
 
-            return formattedChatLines;
+            return cleanedChatLines;
         }
 
         private static List<string> removeReturnCharacters(List<string> formattedChatLines)
@@ -131,7 +145,8 @@ namespace ChatToHTML
             List<string> cleanedChatLines = new List<string>();
             foreach (string line in formattedChatLines)
             {
-                cleanedChatLines.Add(line.Replace("↵", string.Empty));
+                string tempLine = line.Replace("↵↵↵", "¶");
+                cleanedChatLines.Add(tempLine.Replace("↵", string.Empty));
             }
             return cleanedChatLines;
         }
@@ -150,6 +165,7 @@ namespace ChatToHTML
 
                     if (cleanLine.Length > 0)
                     {
+                        cleanLine = cleanLine.Replace("¶", "\r\n\r\n");
                         ProcessDiscordChatLines.Add(cleanLine + "\r\n");
                     }
                 }
@@ -219,62 +235,6 @@ namespace ChatToHTML
             return assembledLine.ToString();
         }
 
-        private static string ProcessFullFormatDiscordChat(List<string> allChatText, DataTable nameTable, ref int i)
-        {
-            string currentLine = string.Empty;
-            List<string> currentLineList = new List<string>();
-
-            //Add current line by AllChatText[i]
-            string LineToProcess = allChatText[i].Length > 2 ? allChatText[i].ToString() : string.Empty;
-
-            //Need to add a line-feed break processor
-            if (CheckForHeaderLine(LineToProcess) && (i < allChatText.Count))
-            {
-                string composedLine = string.Empty;
-                //Look ahead - Start at one
-                i++;
-                LineToProcess = AddNameTags(LineToProcess, nameTable);
-                composedLine = JoinAndCleanFormattedLines(allChatText, i, LineToProcess, false) + "<br />";
-
-                //Look head again
-                i++;
-                if (i < allChatText.Count)
-                {
-                    //Check if the next-next line has date and EM dash - if not join line.
-                    while (!CheckForHeaderLine(allChatText[i]))
-                    {
-                        string tempLine = composedLine;
-                        composedLine = JoinAndCleanFormattedLines(allChatText, i, tempLine, true);
-                        i++;
-                    }
-                }
-                string cleanedLine = CleanOddCharacters(composedLine);
-                currentLine = (cleanedLine.Substring(0, (cleanedLine.Length - 6)) + endParagraphTag + "\r\n");
-                //Adjust counter back
-                i--;
-            }
-            return currentLine;
-        }
-
-        private static string JoinAndCleanFormattedLines(List<string> allChatText, int i, string currentLine, bool needsLineFeed)
-        {
-            string composedLine;
-            string nextLine = allChatText[i];
-            if (needsLineFeed)
-            {
-                composedLine = currentLine.Replace("\r\n", " ") + " <br />" + (nextLine.Length > 2 ? nextLine.Replace("\r\n", " ") + "<br />" : string.Empty);
-            }
-            else
-            {
-                composedLine = currentLine.Replace("\r\n", " ") + " " + nextLine.Replace("\r\n", " ") + " ";
-            }
-            return composedLine;
-        }
-
-        private static bool CheckForHeaderLine(string line)
-        {
-            return line.Contains("—") && (line.Contains(@"/" + DateTime.Now.Year.ToString()) || line.Contains("Yesterday") || line.Contains("Today"));
-        }
 
         private static Encoding GetChatEncoding(string filename)
         {
@@ -289,22 +249,11 @@ namespace ChatToHTML
         }
         private static int GetFormatKey(MainWindow mw)
         {
-            //1 = mibbit + formatted
-            if (mw.UnformattedCheckBox.IsChecked == false && mw.TextFileTypeComboBox.SelectedIndex == 0)
-            {
-                return 1;
-            }
-            //2 = mibbit + unformatted
-            else if (mw.UnformattedCheckBox.IsChecked == true && mw.TextFileTypeComboBox.SelectedIndex == 0)
-            {
-                return 2;
-            }
-            //3 = discord + Mirc style
-            else if (mw.UnformattedCheckBox.IsChecked == true && mw.TextFileTypeComboBox.SelectedIndex == 1)
+            if (mw.UnformattedCheckBox.IsChecked == true)
             {
                 return 3;
             }
-            else if (mw.UnformattedCheckBox.IsChecked == false && mw.TextFileTypeComboBox.SelectedIndex == 1)
+            else if (mw.UnformattedCheckBox.IsChecked != true)
             {
                 return 4;
             }
@@ -358,7 +307,7 @@ namespace ChatToHTML
                     string post = tempTrimmedLine.Substring(nameTagEnd + 1);
 
                     name = AddNameTags(name, nameDataTable);
-                    post = CleanOddCharacters(post);
+                    post = PostTools.CleanOddCharacters(post);
                     tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
                     cleanedLine = name + post + endParagraphTag;
                 }
@@ -414,71 +363,28 @@ namespace ChatToHTML
             }
         }
 
-        private static string TrimmedDiscordLineFormat(string line, DataTable nameDataTable)
-        {
-            string pattern = @"^[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+\n\s\—\s\n\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)";
-
-            string cleanedLine = string.Empty;
-            Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
-
-            Match match = reg.Match(line);
-            int xyz = match.Length;
-            int spacer = match.Length;
-
-            if (match.Success && line.Length > 2)
-            {
-                string ggg = line[spacer].ToString();
-                if (ggg != "\t")
-                {
-                    string tempTrimmedLine = line.Substring(spacer, (line.Length - spacer));
-
-                    int nameTagStart = 0;
-                    int nameTagEnd = tempTrimmedLine.IndexOf(':', nameTagStart + 1);
-                    string firstTemp = tempTrimmedLine.Replace(':', ' ');
-                    string name = firstTemp.Substring((nameTagStart), (nameTagEnd - nameTagStart));
-                    string post = tempTrimmedLine.Substring(nameTagEnd + 1);
-
-                    name = AddNameTags(name, nameDataTable);
-                    post = CleanOddCharacters(post);
-                    tempTrimmedLine = FormattingOddityCatcher(tempTrimmedLine);
-                    cleanedLine = name + post + endParagraphTag;
-                }
-                else
-                {
-                    cleanedLine = UserLogEntryHandler(line);
-                }
-            }
-            else
-            {
-                if (!match.Success)
-                {
-                    cleanedLine = "NO MATCH - MISSING LINE";
-                }
-            }
-            return cleanedLine;
-        }
 
         private static string UnformattedDiscordLineFormat(string line, DataTable nameDataTable)
         {
             string cleanedLine = string.Empty;
             int headerLength = line.IndexOf('█');
-
-            string headerLine = line.Substring(0, headerLength);
-            string post = line.Substring((headerLength + 1), (line.Length - headerLength - 1));
-
-            int nameLength = line.IndexOf('—');
-            string name = headerLine.Substring(0, nameLength - 1);
-
-            if (nameLength > 0)
+            if (headerLength > 0)
             {
-                InCharacterPost currentInCharacterPost = new InCharacterPost();
-                currentInCharacterPost = currentInCharacterPost.GetInCharacterPost(name, post, nameDataTable);
-                cleanedLine = ConvertInCharacterPostToHTMLPostLine(currentInCharacterPost);
+                string headerLine = line.Substring(0, headerLength);
+                string post = line.Substring((headerLength + 1), (line.Length - headerLength - 1));
+
+                int nameLength = line.IndexOf('—');
+                string name = headerLine.Substring(0, nameLength - 1);
+
+                if (nameLength > 0)
+                {
+                    InCharacterPost currentInCharacterPost = new InCharacterPost();
+                    currentInCharacterPost = currentInCharacterPost.GetInCharacterPost(name, post, nameDataTable);
+                    cleanedLine = ConvertInCharacterPostToHTMLPostLine(currentInCharacterPost);
+                    return cleanedLine;
+                }
             }
-            else
-            {
-                cleanedLine = "❌ - Line Error";
-            }
+            cleanedLine = "❌ - Line Error";
             return cleanedLine;
         }
 
@@ -487,16 +393,17 @@ namespace ChatToHTML
             string currentHTMLLine = "<p style='color:" +
             intakePost.UserColor + "; font-family: " +
             intakePost.CharacterFontInfo.FontFamily + "; letter-spacing: " +
-            intakePost.CharacterFontInfo.LetterSpacing + ";' class='" +
+            intakePost.CharacterFontInfo.LetterSpacing + "; font-size: " +
+            intakePost.CharacterFontInfo.FontSize + ";' class='";
 
-            PostTools.RemoveWhitespace(intakePost.CharacterName) + "_Paragraph'>" +
+            currentHTMLLine += PostTools.RemoveWhitespace(intakePost.CharacterName) + "_Paragraph'>" +
             "<span style='font-weight: bold; color: " +
-            intakePost.HeaderColor + ";'" + " class='" +
+            intakePost.HeaderColor + "; letter-spacing: initial !important; font-size: initial !important;'" + " class='" +
             PostTools.RemoveWhitespace(intakePost.CharacterName) +
             "_NameBlock'>" +
             intakePost.CharacterName + ": " + "</span>";
 
-            currentHTMLLine += intakePost.PostContent + "</p>";
+            currentHTMLLine += PostTools.CleanOddCharacters(intakePost.PostContent) + "</p>";
 
             return currentHTMLLine;
         }
@@ -592,7 +499,7 @@ namespace ChatToHTML
                 string post = line.Substring(nameTagEnd + 1);
 
                 name = AddNameTags(name, nameDataTable);
-                post = CleanOddCharacters(post);
+                post = PostTools.CleanOddCharacters(post);
                 cleanedLine = name + post + endParagraphTag;
             }
 
@@ -602,39 +509,6 @@ namespace ChatToHTML
         private static string AddNameTags(string name, DataTable nameDataTable)
         {
             throw new NotImplementedException();
-        }
-
-        private static string CleanOddCharacters(string post)
-        {
-            string tempString = string.Empty;
-
-            //Ugly AF - but functional
-            tempString = CharacterReplacer(post, "*", "✳");
-            tempString = CharacterReplacer(tempString, "~", "〰");
-            tempString = CharacterReplacer(tempString, "”", "\"");
-            tempString = CharacterReplacer(tempString, "“", "\"");
-            tempString = CharacterReplacer(tempString, "’", "'");
-            tempString = CharacterReplacer(tempString, "…", "... ");
-            tempString = CharacterReplacer(tempString, "...", "... ");
-            tempString = CharacterReplacer(tempString, "))", " )) ");
-            tempString = CharacterReplacer(tempString, "_", string.Empty);
-            tempString = CharacterReplacer(tempString, ".\"", ". \"");
-            tempString = CharacterReplacer(tempString, "<br /> <br /> <br />", "<br /> <br />");
-
-            if (tempString.Length > 0)
-            {
-                if ((tempString.IndexOf('-') + 1) != tempString.Length)
-                {
-                    string afterDashCharacter = tempString.Substring((tempString.IndexOf('-') + 1), 1);
-                    if (!string.IsNullOrWhiteSpace(afterDashCharacter))
-                    {
-                        tempString = CharacterReplacer(tempString, " -", " 〰");
-                        tempString = CharacterReplacer(tempString, "- ", "〰 ");
-                    }
-                }
-            }
-
-            return tempString;
         }
 
         private static string CharacterReplacer(string post, string badCharacter, string goodCharacter)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace ChatToHTML
 {
@@ -77,7 +78,16 @@ namespace ChatToHTML
             tempString = CharacterReplacer(tempString, "_", string.Empty);
             tempString = CharacterReplacer(tempString, ".\"", ". \"");
             tempString = CharacterReplacer(tempString, "<br /> <br /> <br />", "<br /> <br />");
+            tempString = CharacterReplacer(tempString, "\r\n\r\n", "<br />");
 
+            Regex sPeriodSpace = new Regex(@"[a-zA-Z0-9À-ž][\.\,\!][a-zA-Z0-9À-ž]|[\.\,\!][\'\""][a-zA-Z0-9À-ž]");
+            Match match = sPeriodSpace.Match(tempString);
+            if (match.Success)
+            {
+                string firstHalf = tempString.Substring(0, match.Index + 2);
+                string secondHalf = tempString.Substring(match.Index + 2, tempString.Length -  (match.Index + 2));
+                tempString = firstHalf + "  " + secondHalf;
+            }
             if (tempString.Length > 0)
             {
                 if ((tempString.IndexOf('-') + 1) != tempString.Length)

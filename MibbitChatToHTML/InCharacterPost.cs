@@ -28,18 +28,18 @@ namespace ChatToHTML
         {
             string xmlFontFamily = string.Empty;
             string xmlLetterSpacing = string.Empty;
+            string xmlFontSize = string.Empty;
 
-            CharacterFontInfo = new FontInfo(xmlFontFamily, xmlLetterSpacing);
+            CharacterFontInfo = new FontInfo(xmlFontFamily, xmlLetterSpacing, xmlFontSize);
         }
 
         public InCharacterPost(string postLineText, DataTable xmlNameTable)
         {
             string xmlFontFamily = string.Empty;
             string xmlLetterSpacing = string.Empty;
+            string xmlFontSize = string.Empty;
 
-            CharacterFontInfo = new FontInfo(xmlFontFamily, xmlLetterSpacing);
-
-
+            CharacterFontInfo = new FontInfo(xmlFontFamily, xmlLetterSpacing, xmlFontSize);
         }
 
         public InCharacterPost GetInCharacterPost(string aliasName, string postText, DataTable xmlNameTable)
@@ -54,7 +54,9 @@ namespace ChatToHTML
             inCharacterPost.CharacterName = xmlNameTable.Rows[nameIndex][1].ToString();
             inCharacterPost.UserColor = xmlNameTable.Rows[nameIndex][2].ToString();
             inCharacterPost.CharacterFontInfo.FontFamily = xmlNameTable.Rows[nameIndex][3].ToString();
-            inCharacterPost.CharacterFontInfo.LetterSpacing = xmlNameTable.Rows[nameIndex][4].ToString();
+            inCharacterPost.CharacterFontInfo.FontSize = xmlNameTable.Rows[nameIndex][4].ToString();
+            inCharacterPost.CharacterFontInfo.LetterSpacing = xmlNameTable.Rows[nameIndex][5].ToString();
+
             inCharacterPost.headerColor = SetHeaderColor(xmlNameTable.Rows[nameIndex][2].ToString());
 
             inCharacterPost.PostContent = GetPostContentFromPostLine(postText);
@@ -112,7 +114,7 @@ namespace ChatToHTML
         {
             private string fontFamily;
             private string letterSpacing;
-
+            private string fontSize;
             //todo: get from json
             private static string fontSeperatorCharacter = ("⌀");
             private static string letterSpacingSeperatorCharacter = ("§");
@@ -123,11 +125,13 @@ namespace ChatToHTML
 
             public string FontFamily { get => fontFamily; set => fontFamily = value; }
             public string LetterSpacing { get => letterSpacing; set => letterSpacing = value; }
+            public string FontSize { get => fontSize; set => fontSize = value; }
 
-            public FontInfo(string xmlFontFamily, string xmlLetterSpacing)
+            public FontInfo(string xmlFontFamily, string xmlLetterSpacing, string fontSize)
             {
                 FontFamily = xmlFontFamily;
                 LetterSpacing = xmlLetterSpacing;
+                FontSize = fontSize;
             }
         }
     }

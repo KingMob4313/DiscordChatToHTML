@@ -30,8 +30,8 @@ namespace ChatToHTML
             List<string> CurrentTextFileTypes = new List<string>();
             CurrentTextFileTypes.Add("Mibbit IRC");
             CurrentTextFileTypes.Add("Discord");
-            TextFileTypeComboBox.ItemsSource = CurrentTextFileTypes;
-            TextFileTypeComboBox.SelectedIndex = 1; //Default to Discord
+            //TextFileTypeComboBox.ItemsSource = CurrentTextFileTypes;
+            //TextFileTypeComboBox.SelectedIndex = 1; //Default to Discord
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace ChatToHTML
             {
                 var currentFileName = OFD.FileName;
                 FileNameTextBox.Text = currentFileName;
-                justChatLines = ChatFile.ProcessChatFile(OFD.FileName, TextFileTypeComboBox.SelectedIndex, this);
+                justChatLines = ChatFile.ProcessChatFile(OFD.FileName, 1, this);
             }
             if(justChatLines != null)
             {
@@ -129,14 +129,14 @@ namespace ChatToHTML
 
         private void TextFileTypeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (TextFileTypeComboBox.SelectedValue.ToString() == "Discord")
-            {                
-                UnformattedCheckBox.Content = "Copied from Discord HTML";
-            }
-            else
-            {
-                UnformattedCheckBox.Content = "Unformatted / MIRC style";
-            }
+            //if (TextFileTypeComboBox.SelectedValue.ToString() == "Discord")
+            //{                
+            //    UnformattedCheckBox.Content = "Copied from Discord HTML";
+            //}
+            //else
+            //{
+            //    UnformattedCheckBox.Content = "Unformatted / MIRC style";
+            //}
         }
     }
 }

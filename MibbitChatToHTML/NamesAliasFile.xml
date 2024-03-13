@@ -3,151 +3,193 @@
   <NameAliasEntry>
     <Alias>Tukov</Alias>
     <name>Kai Tukov</name>
-    <tagColor>#110491</tagColor>
-    <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
-    <tagLetterSpacing>0.07em</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textColor>#110491</textColor>
+    <textFontFace>Ubuntu Mono, Monaco, monospace</textFontFace>
+    <textFontSize>1.0em</textFontSize>
+    <textLetterSpacing>-0.03em</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Kai Tukov</Alias>
     <name>Kai Tukov</name>
-    <tagColor>#110491</tagColor>
-    <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
-    <tagLetterSpacing>0.07em</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textColor>#110491</textColor>
+    <textFontFace>Ubuntu Mono, Monaco, monospace</textFontFace>
+    <textFontSize>1.0em</textFontSize>
+    <textLetterSpacing>-0.03em</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>ST4313</Alias>
     <name>ST 𝟰𝟯𝟭𝟯</name>
-    <tagColor>#110491</tagColor>
-    <tagFontFace>Lucida Console, Monaco, monospace</tagFontFace>
-    <tagLetterSpacing>0.07em</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textColor>#110491</textColor>
+    <textFontFace>Ubuntu Mono, Monaco, monospace</textFontFace>
+    <textFontSize>1.0em</textFontSize>
+    <textLetterSpacing>-0.03em</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Yara Sherred</Alias>
     <name>Yara Sherred</name>
-    <tagColor>#666666</tagColor>
-    <tagFontFace>Overlock</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textColor>#666666</textColor>
+    <textFontFace>Overlock</textFontFace>
+    <textFontSize>1.0em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Yara</Alias>
     <name>Yara Sherred</name>
-    <tagColor>#666666</tagColor>
-    <tagFontFace>Overlock</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textColor>#666666</textColor>
+    <textFontFace>Overlock</textFontFace>
+    <textFontSize>1.0em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Damian Stark</Alias>
     <name>Damian Stark</name>
-    <tagColor>#800000</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textColor>#800000</textColor>
+    <textFontFace>Merriweather, serif</textFontFace>
+    <textFontSize>0.85em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Damian</Alias>
     <name>Damian Stark</name>
-    <tagColor>#800000</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textColor>#800000</textColor>
+    <textFontFace>Merriweather, serif</textFontFace>
+    <textFontSize>0.85em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
-  </NameAliasEntry>
-  <NameAliasEntry>
-    <Alias>The Minx</Alias>
-    <name>Nora Reid</name>
-    <tagColor>#5200CC</tagColor>
-    <tagFontFace>Libre Caslon Text</tagFontFace>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
     <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
-  </NameAliasEntry>
-  <NameAliasEntry>
-    <Alias>Minx</Alias>
-    <name>Nora Reid</name>
-    <tagColor>#5200CC</tagColor>
-    <tagFontFace>Libre Caslon Text</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
-  </NameAliasEntry>
-  <NameAliasEntry>
-    <Alias>Nora</Alias>
-    <name>Nora Reid</name>
-    <tagColor>#5200CC</tagColor>
-    <tagFontFace>Libre Caslon Textf</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
-  </NameAliasEntry>
-  <NameAliasEntry>
-    <Alias>BlackSmith</Alias>
-    <name>BlackSmith</name>
-    <tagColor>#800000</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
-    <textLetterSpacing>normal</textLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>BigBadWolf</Alias>
     <name>Damian Stark</name>
-    <tagColor>#800000</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textColor>#800000</textColor>
+    <textFontFace>Merriweather, serif</textFontFace>
+    <textFontSize>0.85em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>BlackSmith</Alias>
+    <name>BlackSmith ST</name>
+    <textColor>#800000</textColor>
+    <textFontFace>Merriweather, serif</textFontFace>
+    <textFontSize>0.85em</textFontSize>
+    <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>BlackSmith ST</Alias>
+    <name>BlackSmith ST</name>
+    <textColor>#800000</textColor>
+    <textFontFace>Merriweather, serif</textFontFace>
+    <textFontSize>0.85em</textFontSize>
+    <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Blacksmith</Alias>
-    <name>BlackSmith</name>
-    <tagColor>#800000</tagColor>
-    <tagFontFace>Arial, sans-serif</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <name>BlackSmith ST</name>
+    <textColor>#800000</textColor>
+    <textFontFace>Merriweather, serif</textFontFace>
+    <textFontSize>0.85em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>The Minx</Alias>
+    <name>Nora Reid</name>
+    <textColor>#5200CC</textColor>
+    <textFontFace>Libre Caslon tag</textFontFace>
+    <textFontSize>1.0em</textFontSize>
+    <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Minx</Alias>
+    <name>Nora Reid</name>
+    <textColor>#5200CC</textColor>
+    <textFontFace>Libre Caslon tag</textFontFace>
+    <textFontSize>1.0em</textFontSize>
+    <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
+  </NameAliasEntry>
+  <NameAliasEntry>
+    <Alias>Nora</Alias>
+    <name>Nora Reid</name>
+    <textColor>#5200CC</textColor>
+    <textFontFace>Libre Caslon tagf</textFontFace>
+    <textFontSize>1.0em</textFontSize>
+    <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Guyli</Alias>
     <name>Guylian</name>
-    <tagColor>#5200CC</tagColor>
-    <tagFontFace>Libre Caslon Text</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
-    <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textColor>#5200CC</textColor>
+    <textFontFace>Libre Caslon tag</textFontFace>
+    <textFontSize>1.0em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
   <NameAliasEntry>
     <Alias>Guest Player</Alias>
     <name>Marcus Gangrel</name>
-    <tagColor>#000000</tagColor>
-    <tagFontFace>Arial, Sans-serif</tagFontFace>
-    <tagLetterSpacing>normal</tagLetterSpacing>
     <textColor>#000000</textColor>
-    <textFontFace>initial</textFontFace>
+    <textFontFace>Arial, Sans-serif</textFontFace>
+    <textFontSize>1.0em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
+    <tagColor>#000000</tagColor>
+    <tagFontFace>initial !important</tagFontFace>
+    <tagFontSize>initial !important</tagFontSize>
+    <tagLetterSpacing>normal</tagLetterSpacing>
   </NameAliasEntry>
 </nameData>
