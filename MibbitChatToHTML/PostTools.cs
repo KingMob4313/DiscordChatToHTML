@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 
-namespace MibbitChatToHTML
+namespace ChatToHTML
 {
     public static class PostTools
     {
