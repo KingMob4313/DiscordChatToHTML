@@ -136,8 +136,8 @@
     <Alias>The Minx</Alias>
     <name>Nora Reid</name>
     <textColor>#5200CC</textColor>
-    <textFontFace>Libre Caslon tag</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontFace>Libre Caslon Text</textFontFace>
+    <textFontSize>0.875em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -148,8 +148,8 @@
     <Alias>Minx</Alias>
     <name>Nora Reid</name>
     <textColor>#5200CC</textColor>
-    <textFontFace>Libre Caslon tag</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontFace>Libre Caslon Text</textFontFace>
+    <textFontSize>0.875em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -160,8 +160,8 @@
     <Alias>Nora</Alias>
     <name>Nora Reid</name>
     <textColor>#5200CC</textColor>
-    <textFontFace>Libre Caslon tagf</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontFace>Libre Caslon Text</textFontFace>
+    <textFontSize>0.875em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -172,8 +172,8 @@
     <Alias>Guyli</Alias>
     <name>Guylian</name>
     <textColor>#5200CC</textColor>
-    <textFontFace>Libre Caslon tag</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontFace>Libre Caslon Text</textFontFace>
+    <textFontSize>0.875em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
