@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ChatToHTML
+namespace MibbitChatToHTML
 {
     /// <summary>
     /// Interaction logic for NameControl.xaml

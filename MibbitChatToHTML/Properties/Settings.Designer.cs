@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ChatToHTML.Properties
+namespace MibbitChatToHTML.Properties
 {
 
 

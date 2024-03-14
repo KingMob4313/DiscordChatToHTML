@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 /// <summary>
 /// Need to sunset most of this and make this abstract
 /// </summary>
-namespace ChatToHTML
+namespace MibbitChatToHTML
 {
     class ChatFile
     {
