@@ -398,7 +398,7 @@ namespace MibbitChatToHTML
 
             currentHTMLLine += PostTools.RemoveWhitespace(intakePost.CharacterName) + "_Paragraph'>" +
             "<span style='font-weight: bold; color: " +
-            intakePost.HeaderColor + "; letter-spacing: initial !important; font-size: unset !important;'" + " class='" +
+            intakePost.HeaderColor + "; letter-spacing: initial !important; font-size: initial !important;'" + " class='" +
             PostTools.RemoveWhitespace(intakePost.CharacterName) +
             "_NameBlock'>" +
             intakePost.CharacterName + ": " + "</span>";
