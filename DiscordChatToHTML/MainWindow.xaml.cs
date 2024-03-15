@@ -52,7 +52,7 @@ namespace ChatToHTML
                 var currentFileName = OFD.FileName;
                 FileNameTextBox.Text = currentFileName;
                 justChatLines.Add("<notextile>");
-                justChatLines = ChatFile.ProcessChatFile(OFD.FileName, 1, this);
+                justChatLines.AddRange(ChatFile.ProcessChatFile(OFD.FileName, 1, this));
                 justChatLines.Add("</notextile>");
             }
             if(justChatLines != null)
