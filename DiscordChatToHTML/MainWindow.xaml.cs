@@ -12,8 +12,7 @@ namespace ChatToHTML
     /// </summary>
     public partial class MainWindow : Window
     {
-        static public string lineFromDialog = string.Empty;
-        List<Tuple<int, string>> annotatedChatLines = null;
+        //static public string lineFromDialog = string.Empty;
         public DataSet mainNameDataSet = new DataSet();
         public DataTable mainNameDataTable = new DataTable();
 
@@ -39,7 +38,7 @@ namespace ChatToHTML
             string allChat = string.Empty;
             ChatTextBox.Clear();
 
-            annotatedChatLines = new List<Tuple<int, string>>();
+            List<Tuple<int, string>> annotatedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
 
             OpenFileDialog OFD = new OpenFileDialog();

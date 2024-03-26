@@ -89,7 +89,7 @@ namespace ChatToHTML
                 string fixedLine = currentLine;
                 if (currentLine.Length == 0)
                 {
-                    fixedLine = returnCharacter;
+                    fixedLine = "⁂";
                 }
                 formattedChatLines.Add(fixedLine);
             }
@@ -101,38 +101,56 @@ namespace ChatToHTML
             Regex reg = new Regex(@"([A-Z]{1}[a-z]|[A-Z]{1}[A-Za-z]+)+\s([A-Z]{1}[a-z]+|[A-Z]{2})\↵\s\—\s\↵\d{1,2}\/\d{1,2}\/\d{4}\s(2[0-3]|[01]?[0-9]):([0-5]?[0-9])\s(PM|AM)");
             while (!kickOut)
             {
-                string nameDateBlock = string.Empty;
+                string nameDateBlock = "⌀";
 
                 Match match = reg.Match(combinedLines);
+
+                //Found an issue: if post with no text (just an image) major issues
+
                 if (match.Index == 0 && match.Length > 0)
                 {
                     string chatLine = string.Empty;
                     int nameLineLength = 0;
                     int chatLineLength = 0;
                     int returnCharacterCount = 0;
-                    nameDateBlock = combinedLines.Substring(match.Index, match.Length);
+                    nameDateBlock += combinedLines.Substring(match.Index, match.Length);
                     nameLineLength = nameDateBlock.Length;
                     cleanedChatLines.Add(nameDateBlock);
 
+                    bool isEmptyPost = false;
                     combinedLines = combinedLines.Substring(nameLineLength, (combinedLines.Length - nameLineLength));
-                    combinedLines = combinedLines.Substring(1);
+                    //combinedLines = combinedLines.Substring(1);
                     Match nextMatch = reg.Match(combinedLines);
                     if (match.Success)
                     {
                         if (nextMatch.Success)
                         {
-                            string preChatLine = combinedLines.Substring(0, nextMatch.Index - 1);
-                            chatLine = preChatLine;
-                            chatLineLength = chatLine.Length - returnCharacterCount;
+                            if (nextMatch.Index != 0)
+                            {
+                                string preChatLine = combinedLines.Substring(0, nextMatch.Index - 1);
+                                chatLine = preChatLine;
+                                chatLineLength = chatLine.Length - returnCharacterCount;
+                            }
+                            else
+                            {
+                                chatLine = "❌✖EMPTY LINE✖❌";
+                                chatLineLength = chatLine.Length - returnCharacterCount;
+                                isEmptyPost = true;
+                            }
                         }
                         else
                         {
                             chatLine = combinedLines;
                             kickOut = true;
                         }
+
+
+                        if (!isEmptyPost)
+                        {
+                            combinedLines = combinedLines.Substring((chatLineLength + returnCharacterCount + 1), combinedLines.Length - chatLineLength - returnCharacterCount - 1);
+                        }
+                        cleanedChatLines.Add(chatLine.Replace((returnCharacter + returnCharacter + returnCharacter), "¶").Replace(returnCharacter, "¶"));
                     }
-                    cleanedChatLines.Add(chatLine.Replace((returnCharacter + returnCharacter + returnCharacter), "¶").Replace(returnCharacter, "¶"));
-                    combinedLines = combinedLines.Substring((chatLineLength + returnCharacterCount + 1), combinedLines.Length - chatLineLength - returnCharacterCount - 1);
                 }
             }
             cleanedChatLines = removeReturnCharacters(cleanedChatLines);
@@ -142,11 +160,19 @@ namespace ChatToHTML
 
         private static List<string> removeReturnCharacters(List<string> formattedChatLines)
         {
+            string tempLine = string.Empty;
             List<string> cleanedChatLines = new List<string>();
             foreach (string line in formattedChatLines)
             {
-                string tempLine = line.Replace("↵↵↵", "¶");
-                cleanedChatLines.Add(tempLine.Replace("↵", string.Empty));
+                if (line.StartsWith("⌀"))
+                {
+                    cleanedChatLines.Add(line.Replace("↵", string.Empty).Replace("⌀", string.Empty));
+                }
+                else
+                {
+                    tempLine = line.Replace("↵↵↵", "⁂");
+                    cleanedChatLines.Add(tempLine.Replace("↵", "¶"));
+                }
             }
             return cleanedChatLines;
         }
@@ -165,7 +191,8 @@ namespace ChatToHTML
 
                     if (cleanLine.Length > 0)
                     {
-                        cleanLine = cleanLine.Replace("¶", "\r\n\r\n");
+                        cleanLine = cleanLine.Replace("⁂", "\r\n\r\n");
+                        cleanLine = cleanLine.Replace("¶", "<br>");
                         ProcessDiscordChatLines.Add(cleanLine + "\r\n");
                     }
                 }
