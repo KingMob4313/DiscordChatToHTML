@@ -77,8 +77,10 @@ namespace ChatToHTML
             tempString = CharacterReplacer(tempString, "))", " )) ");
             tempString = CharacterReplacer(tempString, "_", string.Empty);
             tempString = CharacterReplacer(tempString, ".\"", ". \"");
-            tempString = CharacterReplacer(tempString, "<br /> <br /> <br />", "<br /> <br />");
-            tempString = CharacterReplacer(tempString, "\r\n\r\n", "<br />");
+            tempString = CharacterReplacer(tempString, "<br><br><br>", "<br><br>");
+            tempString = CharacterReplacer(tempString, "<br><br><br>", "<br><br>");
+            tempString = CharacterReplacer(tempString, "<br><br>\r\n\r\n<br><br>", "<br><br>\r\n");
+            tempString = CharacterReplacer(tempString, "\r\n\r\n", "<br>");
 
             Regex sPeriodSpace = new Regex(@"[a-zA-Z0-9À-ž][\.\,\!][a-zA-Z0-9À-ž]|[\.\,\!][\'\""][a-zA-Z0-9À-ž]");
             Match match = sPeriodSpace.Match(tempString);
@@ -132,6 +134,18 @@ namespace ChatToHTML
             string blueValue = thisColor.B.ToString("X").PadLeft(2, '0');
 
             return ("#" + redValue + greenValue + blueValue);
+        }
+
+        internal static List<string> PostCompositionCleanup(List<string> currentChatLines)
+        {
+            List<string> finalChatLines = new List<string>();
+            foreach (string line in currentChatLines)
+            {
+                string cleanedLine = line.Replace("<br><br>/r/n/r/n<br><br>", "<br>");
+                finalChatLines.Add(cleanedLine);
+
+            }
+            return finalChatLines;
         }
     }
 }

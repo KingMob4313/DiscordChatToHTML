@@ -21,6 +21,7 @@ namespace ChatToHTML
         static readonly string regExPattern = @"^[a-zA-Z]+\s[a-zA-Z]+\s\—\s(1[0-2]|0[1-9])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d{2}\s((1[0-2]|0?[1-9]):([0-5][0-9])\s([AaPp][Mm]))$";
         public static List<string> ProcessChatFile(string fileName, int TextFileType, MainWindow mw)
         {
+            lineCount = 0; //EWW - I know I should be converting this away from static, but fml 
             List<Tuple<int, string>> processedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
             List<string> allChatText;
@@ -69,15 +70,18 @@ namespace ChatToHTML
 
         private static List<string> ProcessDiscordChatLines(List<string> allChatText, int formatKey, MainWindow currentWindow)
         {
+            List<string> preCurrentChatLines = new List<string>();
             List<string> currentChatLines = new List<string>();
             //Discord Chat in HTML format
             if (formatKey == 3)
             {
-                allChatText = PreProcessHTMLDiscordLine(allChatText, currentWindow);
+                preCurrentChatLines = PreProcessHTMLDiscordLine(allChatText, currentWindow);
             }
-            currentChatLines = ProcessCleanedDiscordLine(allChatText, currentWindow);
+            currentChatLines = ProcessCleanedDiscordLine(preCurrentChatLines, currentWindow);
             currentWindow.FormattedLinesText.Content = currentChatLines.Count.ToString();
-            return currentChatLines;
+
+            List<string> finalChatLines = PostTools.PostCompositionCleanup(currentChatLines);
+            return finalChatLines;
         }
 
         private static List<string> PreProcessHTMLDiscordLine(List<string> allChatText, MainWindow currentWindow)
@@ -191,8 +195,8 @@ namespace ChatToHTML
 
                     if (cleanLine.Length > 0)
                     {
-                        cleanLine = cleanLine.Replace("⁂", "\r\n\r\n");
-                        cleanLine = cleanLine.Replace("¶", "<br>");
+                        cleanLine = cleanLine.Replace("⁂", "<br>\r\n");
+                        cleanLine = cleanLine.Replace("¶", "<br>\r\n");
                         ProcessDiscordChatLines.Add(cleanLine + "\r\n");
                     }
                 }

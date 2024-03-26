@@ -37,8 +37,8 @@ namespace ChatToHTML
         {
             string allChat = string.Empty;
             ChatTextBox.Clear();
+            ChatTextBox.Text = string.Empty;
 
-            List<Tuple<int, string>> annotatedChatLines = new List<Tuple<int, string>>();
             List<string> justChatLines = new List<string>();
 
             OpenFileDialog OFD = new OpenFileDialog();
@@ -130,14 +130,6 @@ namespace ChatToHTML
 
         private void TextFileTypeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            //if (TextFileTypeComboBox.SelectedValue.ToString() == "Discord")
-            //{                
-            //    UnformattedCheckBox.Content = "Copied from Discord HTML";
-            //}
-            //else
-            //{
-            //    UnformattedCheckBox.Content = "Unformatted / MIRC style";
-            //}
         }
     }
 }
