@@ -422,17 +422,19 @@ namespace ChatToHTML
         private static string ConvertInCharacterPostToHTMLPostLine(InCharacterPost intakePost)
         {
             string currentHTMLLine = "<p style='color:" +
-            intakePost.UserColor + "; font-family: " +
-            intakePost.CharacterFontInfo.FontFamily + "; letter-spacing: " +
-            intakePost.CharacterFontInfo.LetterSpacing + "; font-size: " +
-            intakePost.CharacterFontInfo.FontSize + ";' class='";
+                    intakePost.UserColor + "; font-family: " +
+                    intakePost.CharacterFontInfo.FontFamily + " !important; font-size: " +
+                    intakePost.CharacterFontInfo.FontSize + " !important; letter-spacing: " +
+                    intakePost.CharacterFontInfo.LetterSpacing + " !important;' class='";
 
             currentHTMLLine += PostTools.RemoveWhitespace(intakePost.CharacterName) + "_Paragraph'>" +
-            "<span style='font-weight: bold; color: " +
-            intakePost.HeaderColor + "; letter-spacing: initial !important; font-size: unset !important;'" + " class='" +
-            PostTools.RemoveWhitespace(intakePost.CharacterName) +
-            "_NameBlock'>" +
-            intakePost.CharacterName + ": " + "</span>";
+                    "<span style='font-family: initial !important" +
+                    "; font-weight: bold; color: " +
+                    intakePost.HeaderColor + "; letter-spacing: initial !important;" +
+                    " font-size: intial !important;'" + " class='" +
+                    PostTools.RemoveWhitespace(intakePost.CharacterName) +
+                    "_NameBlock'>" +
+                    intakePost.CharacterName + ": " + "</span>";
 
             currentHTMLLine += PostTools.CleanOddCharacters(intakePost.PostContent) + "</p>";
 

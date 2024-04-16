@@ -5,7 +5,7 @@
     <name>Kai Tukov</name>
     <textColor>#110491</textColor>
     <textFontFace>Ubuntu Mono, Monaco, monospace</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontSize>1.075em</textFontSize>
     <textLetterSpacing>-0.03em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -17,7 +17,7 @@
     <name>Kai Tukov</name>
     <textColor>#110491</textColor>
     <textFontFace>Ubuntu Mono, Monaco, monospace</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontSize>1.075em</textFontSize>
     <textLetterSpacing>-0.03em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -29,7 +29,7 @@
     <name>ST 𝟰𝟯𝟭𝟯</name>
     <textColor>#110491</textColor>
     <textFontFace>Ubuntu Mono, Monaco, monospace</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontSize>1.075em</textFontSize>
     <textLetterSpacing>-0.03em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -41,7 +41,7 @@
     <name>Yara Sherred</name>
     <textColor>#666666</textColor>
     <textFontFace>Overlock</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontSize>1.075em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -53,7 +53,7 @@
     <name>Yara Sherred</name>
     <textColor>#666666</textColor>
     <textFontFace>Overlock</textFontFace>
-    <textFontSize>1.0em</textFontSize>
+    <textFontSize>1.075em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -65,8 +65,8 @@
     <name>Damian Stark</name>
     <textColor>#800000</textColor>
     <textFontFace>Merriweather, serif</textFontFace>
-    <textFontSize>0.85em</textFontSize>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textFontSize>0.891em</textFontSize>
+    <textLetterSpacing>0.05em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
     <tagFontSize>initial !important</tagFontSize>
@@ -77,8 +77,8 @@
     <name>Damian Stark</name>
     <textColor>#800000</textColor>
     <textFontFace>Merriweather, serif</textFontFace>
-    <textFontSize>0.85em</textFontSize>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textFontSize>0.891em</textFontSize>
+    <textLetterSpacing>0.05em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
     <tagFontSize>initial !important</tagFontSize>
@@ -89,8 +89,8 @@
     <name>Damian Stark</name>
     <textColor>#800000</textColor>
     <textFontFace>Merriweather, serif</textFontFace>
-    <textFontSize>0.85em</textFontSize>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textFontSize>0.891em</textFontSize>
+    <textLetterSpacing>0.05em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
     <tagFontSize>initial !important</tagFontSize>
@@ -101,8 +101,8 @@
     <name>BlackSmith ST</name>
     <textColor>#800000</textColor>
     <textFontFace>Merriweather, serif</textFontFace>
-    <textFontSize>0.85em</textFontSize>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textFontSize>0.891em</textFontSize>
+    <textLetterSpacing>0.05em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
     <tagFontSize>initial !important</tagFontSize>
@@ -113,8 +113,8 @@
     <name>BlackSmith ST</name>
     <textColor>#800000</textColor>
     <textFontFace>Merriweather, serif</textFontFace>
-    <textFontSize>0.85em</textFontSize>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textFontSize>0.891em</textFontSize>
+    <textLetterSpacing>0.05em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
     <tagFontSize>initial !important</tagFontSize>
@@ -125,8 +125,8 @@
     <name>BlackSmith ST</name>
     <textColor>#800000</textColor>
     <textFontFace>Merriweather, serif</textFontFace>
-    <textFontSize>0.85em</textFontSize>
-    <textLetterSpacing>normal</textLetterSpacing>
+    <textFontSize>0.891em</textFontSize>
+    <textLetterSpacing>0.05em</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
     <tagFontSize>initial !important</tagFontSize>
@@ -137,7 +137,7 @@
     <name>Nora Reid</name>
     <textColor>#5200CC</textColor>
     <textFontFace>Libre Caslon Text</textFontFace>
-    <textFontSize>0.875em</textFontSize>
+    <textFontSize>0.965em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -149,7 +149,7 @@
     <name>Nora Reid</name>
     <textColor>#5200CC</textColor>
     <textFontFace>Libre Caslon Text</textFontFace>
-    <textFontSize>0.875em</textFontSize>
+    <textFontSize>0.965em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -161,7 +161,7 @@
     <name>Nora Reid</name>
     <textColor>#5200CC</textColor>
     <textFontFace>Libre Caslon Text</textFontFace>
-    <textFontSize>0.875em</textFontSize>
+    <textFontSize>0.965em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
@@ -173,7 +173,7 @@
     <name>Guylian</name>
     <textColor>#5200CC</textColor>
     <textFontFace>Libre Caslon Text</textFontFace>
-    <textFontSize>0.875em</textFontSize>
+    <textFontSize>0.965em</textFontSize>
     <textLetterSpacing>normal</textLetterSpacing>
     <tagColor>#000000</tagColor>
     <tagFontFace>initial !important</tagFontFace>
