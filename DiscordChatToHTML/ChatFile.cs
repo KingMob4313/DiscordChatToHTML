@@ -431,7 +431,7 @@ namespace ChatToHTML
                     "<span style='font-family: initial !important" +
                     "; font-weight: bold; color: " +
                     intakePost.HeaderColor + "; letter-spacing: initial !important;" +
-                    " font-size: intial !important;'" + " class='" +
+                    " font-size: initial !important;'" + " class='" +
                     PostTools.RemoveWhitespace(intakePost.CharacterName) +
                     "_NameBlock'>" +
                     intakePost.CharacterName + ": " + "</span>";
